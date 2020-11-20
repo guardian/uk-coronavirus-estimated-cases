@@ -1,20 +1,21 @@
-// if you want to import a module from shared/js then you can
-// just do e.g. import Scatter from "shared/js/scatter.js"
-import * as d3 from "d3";
 import {makeColChart} from "shared/js/column-chart.js"
-import {getNations} from "shared/js/get-data.js";
+import {getUtlas} from "shared/js/get-data.js";
+
 
 // fetch data
 const svg = document.querySelector("#gv-svg-col-chart");
-const timeSpan = document.querySelector("#gv-col-timestamp");
+// const timeSpan = document.querySelector("#gv-col-timestamp");
 
 const run = async () => {
-    const ukData = await getNations();
-    const engData = ukData.filter(d => d.name === "England");
 
-    console.log("engdata --->", engData)
+  console.log("getutlas", getUtlas)
+    const data = await getUtlas();
+    console.log("Data", data)
+    const utlaData = data.sheets.weekly_cases_est_and_PHE_UTLA;
+
     
-    makeColChart(svg, engData, 'newCases')
+    makeColChart(svg, utlaData, 'confirmedWeeklyNewCases', 'dateOfNewCaseLagged')
+    makeColChart(svg, utlaData, 'estimatedWeeklyNewCases', 'dateOfNewCaseLagged')
     
     // const latestDate = engData[0].date;
     // const formatDate = d3.timeFormat("%e %B, %Y");

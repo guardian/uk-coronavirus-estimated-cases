@@ -1,4 +1,4 @@
-import mainHTML from "./atoms/cases-eng/server/templates/main.html!text"
+import mainHTML from "./atoms/cases-utla/server/templates/main.html!text"
 
 export async function render() {
     return mainHTML;

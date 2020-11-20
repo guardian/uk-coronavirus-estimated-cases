@@ -32,14 +32,14 @@ const startDate = moment(new Date("1 March, 2020"));
 
 const cleanUpData = (data) => {
     //reverse dates 
-    const datesRev = data.sort( (a,b) => moment(a.date, dateFormat) - moment(b.date, dateFormat))
+    const datesRev = data.sort( (a,b) => moment(a[dateProp], dateFormat) - moment(b[dateProp], dateFormat))
     //remove before 1st March
-    const afterMarch = datesRev.filter(d => moment(d.date, dateFormat) > startDate)
+    const afterMarch = datesRev.filter(d => moment(d[dateProp], dateFormat) > startDate)
     return afterMarch;
 }
 
 const sevenDayAverageData = (data, propName) => {
-    const mostRecentDate = data.slice(-1)[0].date;
+    const mostRecentDate = data.slice(-1)[0][dateProp];
     const latestDate = moment(mostRecentDate, dateFormat);
 
     let periodsOf7Days = []; 
@@ -64,7 +64,7 @@ const sevenDayAverageData = (data, propName) => {
             a += num;
             return a; 
         }, 0); 
-        const midDate = curr.slice(-3)[0].date;
+        const midDate = curr.slice(-3)[0][dateProp];
         const aveObj = {date: midDate, ave: parseInt(dataSum / 7)}
         return [... acc, aveObj];
     },[])
@@ -74,15 +74,14 @@ const sevenDayAverageData = (data, propName) => {
 
 
 
-const makeColChart = (svgEl, rawData, propName, hospDataCut=null) => {
+const makeColChart = (svgEl, rawData, casesProp, dateProp) => {
     const svg = d3.select(svgEl)
 
-    const data = cleanUpData(rawData);
-    const dataToUse = hospDataCut ? cleanUpData(hospDataCut) : data;
-    const aveData = sevenDayAverageData(dataToUse, propName);
+    const dataToUse = cleanUpData(rawData);
+    const aveData = sevenDayAverageData(dataToUse, casesProp);
 
-    const maxCases = d3.max(data.map(d => d[propName]));
-    const maxDate = d3.max(data.map(d => new Date(d.date)));
+    const maxCases = d3.max(data.map(d => d[casesProp]));
+    const maxDate = d3.max(data.map(d => new Date(d[dateProp])));
     const minDate = startDate;
 
 
@@ -96,7 +95,7 @@ const makeColChart = (svgEl, rawData, propName, hospDataCut=null) => {
         .range([0, w - margin.left - margin.right])
 
     const xScaleCol = d3.scaleBand()
-        .domain(data.map(d => d.date))    // min to max 
+        .domain(data.map(d => d[dateProp]))    // min to max 
         .range([0, w - margin.left - margin.right])
         .padding(0.05)
 
@@ -142,59 +141,59 @@ const makeColChart = (svgEl, rawData, propName, hospDataCut=null) => {
         .attr("fill", "#c70000")
         .attr("width", xScaleCol.bandwidth())
         .attr("height", (d) => {
-            return h - margin.top - margin.bottom - yScale(d[propName]);
+            return h - margin.top - margin.bottom - yScale(d[casesProp]);
         })
         .attr("transform", (d) => {
-            return `translate(${xScaleCol(d.date) + margin.left},0)`
+            return `translate(${xScaleCol(d[dateProp]) + margin.left},0)`
         })
-        .attr("y", d => yScale(d[propName]) - margin.top) //??
+        .attr("y", d => yScale(d[casesProp]) - margin.top) //??
         .style("opacity", 0.3)
 
     // LINE
-    svg.append("path")
-        .attr("class", "line")
-        .datum(aveData)
-        .attr("fill", "none")
-        .attr("stroke", "#c70000")
-        .attr("stroke-width", isWide ? 1.5 : 3)
-        .attr("d", d3.line()
-            .curve(d3.curveBasis)
-            .x(function(d) { 
-                return xScale(new Date(d.date)) + margin.left
-            })
-            .y(function(d) { 
-                return yScale(d.ave) - margin.top
-            })
-            )
+    // svg.append("path")
+    //     .attr("class", "line")
+    //     .datum(aveData)
+    //     .attr("fill", "none")
+    //     .attr("stroke", "#c70000")
+    //     .attr("stroke-width", isWide ? 1.5 : 3)
+    //     .attr("d", d3.line()
+    //         .curve(d3.curveBasis)
+    //         .x(function(d) { 
+    //             return xScale(new Date(d[dateProp])) + margin.left
+    //         })
+    //         .y(function(d) { 
+    //             return yScale(d.ave) - margin.top
+    //         })
+    //         )
 
     // LATEST CASES LABEL
-    const lastDataPoint = dataToUse[dataToUse.length -1];
+    // const lastDataPoint = dataToUse[dataToUse.length -1];
 
-    svg.append("text")
-        .text(lastDataPoint[propName].toLocaleString("en-gb"))
-        .attr('class', 'cases-last-number')
-        .attr("x", xScale(new Date(lastDataPoint.date)) + margin.left)
-        .attr("y", yScale(lastDataPoint[propName]))
-        .attr("text-anchor", "end")
-        // .attr("dx", isWide ? 5 : -5)
-        .attr("dy", isWide ? -30 : -35)
+    // svg.append("text")
+    //     .text(lastDataPoint[casesProp].toLocaleString("en-gb"))
+    //     .attr('class', 'cases-last-number')
+    //     .attr("x", xScale(new Date(lastDataPoint[dateProp])) + margin.left)
+    //     .attr("y", yScale(lastDataPoint[casesProp]))
+    //     .attr("text-anchor", "end")
+    //     // .attr("dx", isWide ? 5 : -5)
+    //     .attr("dy", isWide ? -30 : -35)
 
-    // add a line to connect the number with the column 
-    svg.append("line")
-        .attr('class', 'cases-last-number-line')
-        .attr("stroke", "#929297")
-        .attr("stroke-width", isWide ? 0.5 : 1)
-        .attr("x1", xScale(new Date(lastDataPoint.date)) + margin.left - xScaleCol.bandwidth()/2 )
-        .attr("x2", xScale(new Date(lastDataPoint.date)) + margin.left - xScaleCol.bandwidth()/2)
-        .attr("y1", yScale(lastDataPoint[propName]) - margin.top)
-        .attr("y2", yScale(lastDataPoint[propName] - margin.top) - (isWide ? 28 : 32))
+    // // add a line to connect the number with the column 
+    // svg.append("line")
+    //     .attr('class', 'cases-last-number-line')
+    //     .attr("stroke", "#929297")
+    //     .attr("stroke-width", isWide ? 0.5 : 1)
+    //     .attr("x1", xScale(new Date(lastDataPoint[dateProp])) + margin.left - xScaleCol.bandwidth()/2 )
+    //     .attr("x2", xScale(new Date(lastDataPoint[dateProp])) + margin.left - xScaleCol.bandwidth()/2)
+    //     .attr("y1", yScale(lastDataPoint[casesProp]) - margin.top)
+    //     .attr("y2", yScale(lastDataPoint[casesProp] - margin.top) - (isWide ? 28 : 32))
 
-    svg.append("circle")
-        .attr('class', 'cases-last-number-circle')
-        .attr('fill', '#880105')
-        .attr("r", isWide ? 3 : 5)
-        .attr("cx", xScale(new Date(lastDataPoint.date)) + margin.left - xScaleCol.bandwidth()/2 )
-        .attr("cy", yScale(lastDataPoint[propName]) - margin.top)
+    // svg.append("circle")
+    //     .attr('class', 'cases-last-number-circle')
+    //     .attr('fill', '#880105')
+    //     .attr("r", isWide ? 3 : 5)
+    //     .attr("cx", xScale(new Date(lastDataPoint[dateProp])) + margin.left - xScaleCol.bandwidth()/2 )
+    //     .attr("cy", yScale(lastDataPoint[casesProp]) - margin.top)
 
     
 }

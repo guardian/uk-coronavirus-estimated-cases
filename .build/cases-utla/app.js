@@ -81,64 +81,53 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./atoms/cases-eng/client/js/app.js":
-/*!******************************************!*\
-  !*** ./atoms/cases-eng/client/js/app.js ***!
-  \******************************************/
+/***/ "./atoms/cases-utla/client/js/app.js":
+/*!*******************************************!*\
+  !*** ./atoms/cases-utla/client/js/app.js ***!
+  \*******************************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.filter */ "./node_modules/core-js/modules/es.array.filter.js");
-/* harmony import */ var core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_filter__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.function.name */ "./node_modules/core-js/modules/es.function.name.js");
-/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
-/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var d3__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! d3 */ "./node_modules/d3/index.js");
-/* harmony import */ var _shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../shared/js/column-chart.js */ "./shared/js/column-chart.js");
-/* harmony import */ var _shared_js_get_data_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../shared/js/get-data.js */ "./shared/js/get-data.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ "./node_modules/@babel/runtime/helpers/asyncToGenerator.js");
+/* harmony import */ var _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../shared/js/column-chart.js */ "./shared/js/column-chart.js");
+/* harmony import */ var _shared_js_get_data_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../shared/js/get-data.js */ "./shared/js/get-data.js");
 
 
-
-
-
-// if you want to import a module from shared/js then you can
-// just do e.g. import Scatter from "shared/js/scatter.js"
 
 
  // fetch data
 
-var svg = document.querySelector("#gv-svg-col-chart");
-var timeSpan = document.querySelector("#gv-col-timestamp");
+var svg = document.querySelector("#gv-svg-col-chart"); // const timeSpan = document.querySelector("#gv-col-timestamp");
 
 var run = /*#__PURE__*/function () {
-  var _ref = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.mark(function _callee() {
-    var ukData, engData;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.wrap(function _callee$(_context) {
+  var _ref = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+    var data, utlaData;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
-            _context.next = 2;
-            return Object(_shared_js_get_data_js__WEBPACK_IMPORTED_MODULE_7__["getNations"])();
+            console.log("getutlas", _shared_js_get_data_js__WEBPACK_IMPORTED_MODULE_4__["getUtlas"]);
+            _context.next = 3;
+            return Object(_shared_js_get_data_js__WEBPACK_IMPORTED_MODULE_4__["getUtlas"])();
 
-          case 2:
-            ukData = _context.sent;
-            engData = ukData.filter(function (d) {
-              return d.name === "England";
-            });
-            console.log("engdata --->", engData);
-            Object(_shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_6__["makeColChart"])(svg, engData, 'newCases'); // const latestDate = engData[0].date;
+          case 3:
+            data = _context.sent;
+            console.log("Data", data);
+            utlaData = data.sheets.weekly_cases_est_and_PHE_UTLA;
+            Object(_shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_3__["makeColChart"])(svg, utlaData, 'confirmedWeeklyNewCases', 'dateOfNewCaseLagged');
+            Object(_shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_3__["makeColChart"])(svg, utlaData, 'estimatedWeeklyNewCases', 'dateOfNewCaseLagged'); // const latestDate = engData[0].date;
             // const formatDate = d3.timeFormat("%e %B, %Y");
             // const cleanDate = new Date(latestDate)
             // timeSpan.textContent = formatDate(cleanDate)
@@ -147,7 +136,7 @@ var run = /*#__PURE__*/function () {
               window.resize();
             }
 
-          case 7:
+          case 9:
           case "end":
             return _context.stop();
         }
@@ -4881,39 +4870,6 @@ $({ target: 'Array', proto: true, forced: FORCED }, {
       : nativeSort.call(toObject(this), aFunction(comparefn));
   }
 });
-
-
-/***/ }),
-
-/***/ "./node_modules/core-js/modules/es.function.name.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/core-js/modules/es.function.name.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__(/*! ../internals/descriptors */ "./node_modules/core-js/internals/descriptors.js");
-var defineProperty = __webpack_require__(/*! ../internals/object-define-property */ "./node_modules/core-js/internals/object-define-property.js").f;
-
-var FunctionPrototype = Function.prototype;
-var FunctionPrototypeToString = FunctionPrototype.toString;
-var nameRE = /^\s*function ([^ (]*)/;
-var NAME = 'name';
-
-// Function instances `.name` property
-// https://tc39.github.io/ecma262/#sec-function-instances-name
-if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
-  defineProperty(FunctionPrototype, NAME, {
-    configurable: true,
-    get: function () {
-      try {
-        return FunctionPrototypeToString.call(this).match(nameRE)[1];
-      } catch (error) {
-        return '';
-      }
-    }
-  });
-}
 
 
 /***/ }),
@@ -57728,14 +57684,14 @@ var cleanUpNum = function cleanUpNum(obj) {
 
 /***/ }),
 
-/***/ 0:
-/*!************************************************!*\
-  !*** multi ./atoms/cases-eng/client/js/app.js ***!
-  \************************************************/
+/***/ 2:
+/*!*************************************************!*\
+  !*** multi ./atoms/cases-utla/client/js/app.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/anna_leach/viscode/uk-coronavirus-estimated-cases/atoms/cases-eng/client/js/app.js */"./atoms/cases-eng/client/js/app.js");
+module.exports = __webpack_require__(/*! /Users/anna_leach/viscode/uk-coronavirus-estimated-cases/atoms/cases-utla/client/js/app.js */"./atoms/cases-utla/client/js/app.js");
 
 
 /***/ })

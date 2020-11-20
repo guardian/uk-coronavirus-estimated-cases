@@ -1,28 +1,3 @@
-
-
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
-        <link rel="stylesheet" type="text/css" href="main.css" />
- 
-        </style>
-    </head>
-    <body class="interactive interactive-atom app android">
-        <div class="interactive-wrapper">
-    <div class="gv-headline">England: number of new coronavirus cases per day - estimated and confirmed</div>
-    <div class="gv-subhead"></div>
-    <svg id="gv-svg-col-chart" viewBox="0,0,600,400" style="overflow: visible;"></svg>
-    <div class="source">
-        Note: Line chart based on the average number of new cases per day in a given week. 
-        Cases are assigned to the date of publication.
-        Data: data.gov.uk, updated <span id="gv-col-timestamp"></span>
-    </div>
-</div>
-
-        
-            <script>
-
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -106,20 +81,20 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./atoms/cases-eng/client/js/main.js":
-/*!*******************************************!*\
-  !*** ./atoms/cases-eng/client/js/main.js ***!
-  \*******************************************/
+/***/ "./atoms/cases-utla/client/js/main.js":
+/*!********************************************!*\
+  !*** ./atoms/cases-utla/client/js/main.js ***!
+  \********************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
 var el = document.createElement('script');
-el.src = './app.js';
+el.src = '<%= atomPath %>/app.js';
 document.body.appendChild(el);
 setTimeout(function () {
   if (window.resize) {
@@ -137,23 +112,17 @@ setTimeout(function () {
 
 /***/ }),
 
-/***/ 1:
-/*!*************************************************!*\
-  !*** multi ./atoms/cases-eng/client/js/main.js ***!
-  \*************************************************/
+/***/ 3:
+/*!**************************************************!*\
+  !*** multi ./atoms/cases-utla/client/js/main.js ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/anna_leach/viscode/uk-coronavirus-estimated-cases/atoms/cases-eng/client/js/main.js */"./atoms/cases-eng/client/js/main.js");
+module.exports = __webpack_require__(/*! /Users/anna_leach/viscode/uk-coronavirus-estimated-cases/atoms/cases-utla/client/js/main.js */"./atoms/cases-utla/client/js/main.js");
 
 
 /***/ })
 
 /******/ });
 //# sourceMappingURL=main.js.map
-
-            </script>
-        
-    </body>
-</html>
-
