@@ -460,3 +460,15 @@
 .interactive-atom {
   margin: 0;
   padding: 0; }
+
+.interactive-wrapper {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap; }
+  .interactive-wrapper .multiple {
+    -webkit-flex: 0 0 400px;
+            flex: 0 0 400px;
+    margin-top: 10px; }

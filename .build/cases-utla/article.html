@@ -3321,18 +3321,64 @@ stateChange;script.src=src}else document.write('\x3cscript src\x3d"'+src+'" defe
   margin: 0;
   padding: 0; }
 
+.interactive-wrapper {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap; }
+  .interactive-wrapper .multiple {
+    -webkit-flex: 0 0 400px;
+            flex: 0 0 400px;
+    margin-top: 10px; }
+
                  </style>
              </head>
              <body>
                  &lt;div class=&quot;interactive-wrapper&quot;&gt;
-    &lt;div class=&quot;gv-headline&quot;&gt;England: number of new coronavirus cases per day - estimated and confirmed&lt;/div&gt;
-    &lt;div class=&quot;gv-subhead&quot;&gt;&lt;/div&gt;
-    &lt;svg id=&quot;gv-svg-col-chart&quot; viewBox=&quot;0,0,600,400&quot; style=&quot;overflow: visible;&quot;&gt;&lt;/svg&gt;
-    &lt;div class=&quot;source&quot;&gt;
-        Note: Line chart based on the average number of new cases per day in a given week. 
-        Cases are assigned to the date of publication.
-        Data: data.gov.uk, updated &lt;span id=&quot;gv-col-timestamp&quot;&gt;&lt;/span&gt;
+
+    &lt;div class=&quot;gv-headline&quot;&gt;Weekly coronavirus cases - confirmed and estimated&lt;/div&gt;
+    &lt;div class=&quot;multiple&quot;&gt;
+        &lt;div class=&quot;gv-headline&quot;&gt;&lt;span id=&quot;utla-name&quot;&gt;Local Authority&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;gv-subhead&quot;&gt;&lt;/div&gt;
+        &lt;svg id=&quot;gv-svg-col-chart&quot; viewBox=&quot;0,0,500,350&quot; style=&quot;overflow: visible;&quot;&gt;&lt;/svg&gt;
+
     &lt;/div&gt;
+
+    &lt;div class=&quot;multiple&quot;&gt;
+        &lt;div class=&quot;gv-headline&quot;&gt;&lt;span id=&quot;utla-name&quot;&gt;&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;gv-subhead&quot;&gt;&lt;/div&gt;
+        &lt;svg id=&quot;gv-svg-col-chart&quot; viewBox=&quot;0,0,500,350&quot; style=&quot;overflow: visible;&quot;&gt;&lt;/svg&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;multiple&quot;&gt;
+        &lt;div class=&quot;gv-headline&quot;&gt;&lt;span id=&quot;utla-name&quot;&gt;&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;gv-subhead&quot;&gt;&lt;/div&gt;
+        &lt;svg id=&quot;gv-svg-col-chart&quot; viewBox=&quot;0,0,500,350&quot; style=&quot;overflow: visible;&quot;&gt;&lt;/svg&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;multiple&quot;&gt;
+        &lt;div class=&quot;gv-headline&quot;&gt;&lt;span id=&quot;utla-name&quot;&gt;&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;gv-subhead&quot;&gt;&lt;/div&gt;
+        &lt;svg id=&quot;gv-svg-col-chart&quot; viewBox=&quot;0,0,500,350&quot; style=&quot;overflow: visible;&quot;&gt;&lt;/svg&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;multiple&quot;&gt;
+        &lt;div class=&quot;gv-headline&quot;&gt;&lt;span id=&quot;utla-name&quot;&gt;&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;gv-subhead&quot;&gt;&lt;/div&gt;
+        &lt;svg id=&quot;gv-svg-col-chart&quot; viewBox=&quot;0,0,500,350&quot; style=&quot;overflow: visible;&quot;&gt;&lt;/svg&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;multiple&quot;&gt;
+        &lt;div class=&quot;gv-headline&quot;&gt;&lt;span id=&quot;utla-name&quot;&gt;&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;gv-subhead&quot;&gt;&lt;/div&gt;
+        &lt;svg id=&quot;gv-svg-col-chart&quot; viewBox=&quot;0,0,500,350&quot; style=&quot;overflow: visible;&quot;&gt;&lt;/svg&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;source&quot;&gt;
+        Data: confirmed cases - data.gov.uk, estimated cases - Edge Health, correct as of &lt;span id=&quot;gv-col-timestamp&quot;&gt; 22 Nov 2020&lt;/span&gt;
+    &lt;/div&gt;
+
 &lt;/div&gt;
 
                  <script>

@@ -1,30 +1,44 @@
 import {makeColChart} from "shared/js/column-chart.js"
 import {getUtlas} from "shared/js/get-data.js";
 
+const svgBoxes = document.querySelectorAll('.multiple');
 
-// fetch data
-const svg = document.querySelector("#gv-svg-col-chart");
-// const timeSpan = document.querySelector("#gv-col-timestamp");
+// should we pick the ones with the biggest gap? or the highest rate? 
+
+
+// places 
+const brent = {code: "E09000005", name: "Brent"}
+const newham = {code: "E09000025", name: "Newham"}
+const tameside = {code: "E08000008", name: "Tameside"}
+const liverpool = {code: "E08000012", name: "Liverpool"}
+const salford = {code: "E08000006", name: "Salford"}
+const harrow = {code: "E09000015", name: "Harrow"}
+
+const areas = [brent, newham, tameside, liverpool, salford, harrow];
+
+
+const makeUtlaChart = (svgBox, utlaData, utlaName) => {
+  svgBox.querySelector('#utla-name').textContent = utlaName;
+  const svg = svgBox.querySelector("#gv-svg-col-chart");
+  makeColChart(svg, utlaData, 'estimatedWeeklyNewCases', 'confirmedWeeklyNewCases', 'dateOfNewCaseLagged')
+}
+
 
 const run = async () => {
-
-  console.log("getutlas", getUtlas)
-    const data = await getUtlas();
-    console.log("Data", data)
-    const utlaData = data.sheets.weekly_cases_est_and_PHE_UTLA;
-
-    
-    makeColChart(svg, utlaData, 'confirmedWeeklyNewCases', 'dateOfNewCaseLagged')
-    makeColChart(svg, utlaData, 'estimatedWeeklyNewCases', 'dateOfNewCaseLagged')
-    
-    // const latestDate = engData[0].date;
-    // const formatDate = d3.timeFormat("%e %B, %Y");
-    // const cleanDate = new Date(latestDate)
-    // timeSpan.textContent = formatDate(cleanDate)
+  // fetch data
+  const data = await getUtlas();
+  const allData = data.sheets.weekly_cases_est_and_PHE_UTLA;
   
-  
-    if (window.resize) {
-      window.resize();
-    }
+  // create graph for each area 
+  areas.map((area, i) => {
+    const areaData = allData.filter(d => d.utlaCode === area.code);
+    makeUtlaChart(svgBoxes[i], areaData, area.name)
+  })
+
+  if (window.resize) {
+    window.resize();
   }
+}
+
+
 run(); 

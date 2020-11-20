@@ -14,10 +14,8 @@ const getAllDataLastXDays = (allData, date, x) => {
         const dataDate = moment(d.date, "YYYY-MM-DD");
         return dataDate.isBefore(datePlusOne) && dataDate.isAfter(dateMinusX);
     })
-
     return datesInRange;
 }
-
 
 const getData7DaysAgo = (data, startDate) => data.find(d => {
     const datePlusOne = new Date(d3.timeDay.offset(startDate, +1));

@@ -8,3 +8,17 @@
     margin: 0;
     padding: 0;
 }
+
+
+// multiples grid 
+
+.interactive-wrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    .multiple {
+        flex: 0 0 400px;
+        margin-top: 10px;
+    }
+}

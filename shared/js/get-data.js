@@ -18,9 +18,7 @@ const getNations = async () => {
 
 // get estimated and actual cases by utla 
 const getUtlas = async () => {
-    console.log("called")
     const res = await fetch(ultaData)
-    console.log("Res", res);
     return res.json()
 };
 
