@@ -52,7 +52,7 @@ const cleanUpData = (data, dateProp, estCasesProp, confCasesProp) => {
     return dataAsNum;
 }
 
-const makeColChart = (svgEl, rawData, estCasesProp, confCasesProp, dateProp) => {
+const makeColChart = (svgEl, infoBoxes, rawData, estCasesProp, confCasesProp, dateProp) => {
     const svg = d3.select(svgEl)
 
     const dataToUse = cleanUpData(rawData, dateProp, estCasesProp, confCasesProp);
@@ -63,6 +63,9 @@ const makeColChart = (svgEl, rawData, estCasesProp, confCasesProp, dateProp) => 
 
     const estPercentInfected = calculatePercentInfected(dataToUse, estCasesProp)
     const confPercentInfected = calculatePercentInfected(dataToUse, confCasesProp)
+
+    infoBoxes[0].textContent = `${confPercentInfected}%`;
+    infoBoxes[1].textContent = `${estPercentInfected}%`;
 
 
     // SCALES 
@@ -89,7 +92,7 @@ const makeColChart = (svgEl, rawData, estCasesProp, confCasesProp, dateProp) => 
     const yAxis = d3.axisRight(yScale)
         .scale(yScale)
         .tickSize(w - margin.left)
-        .ticks(8)
+        .ticks(4)
 
     svg.append("g")
         .attr("class", "x axis")
@@ -149,22 +152,6 @@ const makeColChart = (svgEl, rawData, estCasesProp, confCasesProp, dateProp) => 
     const summaryBox = svg.append("g")
         .attr("id", "summary-box")
         .attr("transform", `translate(${w -sumBoxW},${margin.top})`)
-
-    summaryBox.append("text")
-        .text(`people infected:`)
-        .append("text")
-
-    summaryBox.append("text")
-        .text(`${confPercentInfected}% confirmed`)
-        .attr("dy", "20")
-
-    summaryBox.append("text")
-        .text(` ${estPercentInfected}% estimated`)
-        .attr("dy", "40")
-        // .append("rect")
-        // .attr("height", sumBoxH )
-        // .attr("width", sumBoxW )
-        // .attr("fill", "red")
 
 }
 

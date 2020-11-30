@@ -408,21 +408,42 @@
 .interactive-wrapper {
   max-width: 860px; }
 
-.cases-last-number {
-  font-size: 13px;
-  line-height: 18px;
-  font-family: "Guardian Text Sans Web", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-size: 24px;
-  font-weight: bolder;
-  fill: #880105; }
-  @media (min-width: 28.125em) {
-    .cases-last-number {
-      font-size: 14px; } }
+.multiple-container {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap; }
 
-.cases-last-number-white {
-  stroke: white;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: white; }
+.multiple {
+  margin-bottom: 16px;
+  -webkit-flex: 0 0 400px;
+          flex: 0 0 400px;
+  margin-top: 10px; }
+
+.gv-subhead {
+  display: -webkit-flex;
+  display: flex;
+  margin-bottom: 12px; }
+  .gv-subhead .info-box {
+    -webkit-flex: 0 1 200px;
+            flex: 0 1 200px;
+    font-family: 'Guardian Text Sans Web', Arial, sans-serif; }
+    .gv-subhead .info-box p {
+      margin: 0;
+      margin-bottom: 5px; }
+    .gv-subhead .info-box span {
+      font-size: 16px;
+      line-height: 20px;
+      font-family: "Guardian Headline", "Guardian Egyptian Web", "Guardian Headline Full", Georgia, serif;
+      font-weight: normal;
+      font-weight: bold;
+      font-size: 32px; }
+    .gv-subhead .info-box span.confirmed {
+      color: #c70000; }
+    .gv-subhead .info-box span.estimated {
+      color: #767676; }
 
 .gv-shadow-text {
   stroke: 1px solid white; }
@@ -441,7 +462,7 @@
   font-size: 24px; }
   @media (min-width: 28.125em) {
     .x.axis text, .y.axis text {
-      font-size: 12px; } }
+      font-size: 16px; } }
 
 .gv-headline {
   font-size: 20px;
@@ -449,6 +470,12 @@
   font-family: "Guardian Headline","Guardian Egyptian Web","Guardian Headline Full",Georgia,serif;
   font-weight: 900;
   margin-bottom: 24px; }
+
+.gv-headline {
+  margin-bottom: 12px; }
+  @media (min-width: 28.125em) {
+    .gv-headline {
+      margin-bottom: 20px; } }
 
 .timestamp {
   font-size: 16px;
@@ -460,15 +487,3 @@
 .interactive-atom {
   margin: 0;
   padding: 0; }
-
-.interactive-wrapper {
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-direction: row;
-          flex-direction: row;
-  -webkit-flex-wrap: wrap;
-          flex-wrap: wrap; }
-  .interactive-wrapper .multiple {
-    -webkit-flex: 0 0 400px;
-            flex: 0 0 400px;
-    margin-top: 10px; }

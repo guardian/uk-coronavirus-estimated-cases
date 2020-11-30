@@ -2,10 +2,9 @@ import {makeColChart} from "shared/js/column-chart.js"
 import {getUtlas} from "shared/js/get-data.js";
 
 const svgBoxes = document.querySelectorAll('.multiple');
+const infoSpans = document.querySelectorAll(".info-box span");
 
-// should we pick the ones with the biggest gap? or the highest rate? 
-
-
+// should we pick the ones with the biggest gap? or the highest estimated rate? 
 // places 
 const brent = {code: "E09000005", name: "Brent"}
 const newham = {code: "E09000025", name: "Newham"}
@@ -20,7 +19,8 @@ const areas = [brent, newham, tameside, liverpool, salford, harrow];
 const makeUtlaChart = (svgBox, utlaData, utlaName) => {
   svgBox.querySelector('#utla-name').textContent = utlaName;
   const svg = svgBox.querySelector("#gv-svg-col-chart");
-  makeColChart(svg, utlaData, 'estimatedWeeklyNewCases', 'confirmedWeeklyNewCases', 'dateOfNewCaseLagged')
+  const infoSpans = svgBox.querySelectorAll(".info-box span");
+  makeColChart(svg, infoSpans, utlaData, 'estimatedWeeklyNewCases', 'confirmedWeeklyNewCases', 'dateOfNewCaseLagged')
 }
 
 

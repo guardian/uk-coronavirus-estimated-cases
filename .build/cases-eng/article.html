@@ -3268,21 +3268,42 @@ stateChange;script.src=src}else document.write('\x3cscript src\x3d"'+src+'" defe
 .interactive-wrapper {
   max-width: 860px; }
 
-.cases-last-number {
-  font-size: 13px;
-  line-height: 18px;
-  font-family: &quot;Guardian Text Sans Web&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, &quot;Lucida Grande&quot;, sans-serif;
-  font-size: 24px;
-  font-weight: bolder;
-  fill: #880105; }
-  @media (min-width: 28.125em) {
-    .cases-last-number {
-      font-size: 14px; } }
+.multiple-container {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-flex-wrap: wrap;
+          flex-wrap: wrap; }
 
-.cases-last-number-white {
-  stroke: white;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: white; }
+.multiple {
+  margin-bottom: 16px;
+  -webkit-flex: 0 0 400px;
+          flex: 0 0 400px;
+  margin-top: 10px; }
+
+.gv-subhead {
+  display: -webkit-flex;
+  display: flex;
+  margin-bottom: 12px; }
+  .gv-subhead .info-box {
+    -webkit-flex: 0 1 200px;
+            flex: 0 1 200px;
+    font-family: &#39;Guardian Text Sans Web&#39;, Arial, sans-serif; }
+    .gv-subhead .info-box p {
+      margin: 0;
+      margin-bottom: 5px; }
+    .gv-subhead .info-box span {
+      font-size: 16px;
+      line-height: 20px;
+      font-family: &quot;Guardian Headline&quot;, &quot;Guardian Egyptian Web&quot;, &quot;Guardian Headline Full&quot;, Georgia, serif;
+      font-weight: normal;
+      font-weight: bold;
+      font-size: 32px; }
+    .gv-subhead .info-box span.confirmed {
+      color: #c70000; }
+    .gv-subhead .info-box span.estimated {
+      color: #767676; }
 
 .gv-shadow-text {
   stroke: 1px solid white; }
@@ -3301,7 +3322,7 @@ stateChange;script.src=src}else document.write('\x3cscript src\x3d"'+src+'" defe
   font-size: 24px; }
   @media (min-width: 28.125em) {
     .x.axis text, .y.axis text {
-      font-size: 12px; } }
+      font-size: 16px; } }
 
 .gv-headline {
   font-size: 20px;
@@ -3309,6 +3330,12 @@ stateChange;script.src=src}else document.write('\x3cscript src\x3d"'+src+'" defe
   font-family: &quot;Guardian Headline&quot;,&quot;Guardian Egyptian Web&quot;,&quot;Guardian Headline Full&quot;,Georgia,serif;
   font-weight: 900;
   margin-bottom: 24px; }
+
+.gv-headline {
+  margin-bottom: 12px; }
+  @media (min-width: 28.125em) {
+    .gv-headline {
+      margin-bottom: 20px; } }
 
 .timestamp {
   font-size: 16px;
@@ -3325,13 +3352,20 @@ stateChange;script.src=src}else document.write('\x3cscript src\x3d"'+src+'" defe
              </head>
              <body>
                  &lt;div class=&quot;interactive-wrapper&quot;&gt;
-    &lt;div class=&quot;gv-headline&quot;&gt;England: number of new coronavirus cases per day - estimated and confirmed&lt;/div&gt;
-    &lt;div class=&quot;gv-subhead&quot;&gt;&lt;/div&gt;
-    &lt;svg id=&quot;gv-svg-col-chart&quot; viewBox=&quot;0,0,600,400&quot; style=&quot;overflow: visible;&quot;&gt;&lt;/svg&gt;
+    &lt;div class=&quot;gv-headline&quot;&gt;England: people infected with coronavirus - estimated and confirmed&lt;/div&gt;
+    &lt;div class=&quot;gv-subhead&quot;&gt;
+        &lt;div class=&quot;info-box&quot;&gt;
+            &lt;p&gt;&lt;span class=&quot;confirmed&quot;&gt;-%&lt;/span&gt;&lt;/p&gt;
+            &lt;p&gt;people confirmed infected&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;info-box&quot;&gt;
+            &lt;p&gt;&lt;span class=&quot;estimated&quot;&gt;-%&lt;/span&gt;&lt;/p&gt;
+            &lt;p&gt;people estimated infected&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;svg id=&quot;gv-svg-col-chart&quot; viewBox=&quot;0,0,500,400&quot; style=&quot;overflow: visible;&quot;&gt;&lt;/svg&gt;
     &lt;div class=&quot;source&quot;&gt;
-        Note: Line chart based on the average number of new cases per day in a given week. 
-        Cases are assigned to the date of publication.
-        Data: data.gov.uk, updated &lt;span id=&quot;gv-col-timestamp&quot;&gt;&lt;/span&gt;
+        % infection rate is for all people in the area over the whole course of the pandemic. Data: confirmed cases - data.gov.uk, estimated cases - Edge Health, correct as of &lt;span id=&quot;gv-col-timestamp&quot;&gt; 22 Nov 2020&lt;/span&gt;
     &lt;/div&gt;
 &lt;/div&gt;
 

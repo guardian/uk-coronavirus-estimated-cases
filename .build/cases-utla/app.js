@@ -117,7 +117,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var svgBoxes = document.querySelectorAll('.multiple'); // should we pick the ones with the biggest gap? or the highest rate? 
+var svgBoxes = document.querySelectorAll('.multiple');
+var infoSpans = document.querySelectorAll(".info-box span"); // should we pick the ones with the biggest gap? or the highest estimated rate? 
 // places 
 
 var brent = {
@@ -149,7 +150,8 @@ var areas = [brent, newham, tameside, liverpool, salford, harrow];
 var makeUtlaChart = function makeUtlaChart(svgBox, utlaData, utlaName) {
   svgBox.querySelector('#utla-name').textContent = utlaName;
   var svg = svgBox.querySelector("#gv-svg-col-chart");
-  Object(_shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_6__["makeColChart"])(svg, utlaData, 'estimatedWeeklyNewCases', 'confirmedWeeklyNewCases', 'dateOfNewCaseLagged');
+  var infoSpans = svgBox.querySelectorAll(".info-box span");
+  Object(_shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_6__["makeColChart"])(svg, infoSpans, utlaData, 'estimatedWeeklyNewCases', 'confirmedWeeklyNewCases', 'dateOfNewCaseLagged');
 };
 
 var run = /*#__PURE__*/function () {
@@ -55965,7 +55967,7 @@ var cleanUpData = function cleanUpData(data, dateProp, estCasesProp, confCasesPr
   return dataAsNum;
 };
 
-var makeColChart = function makeColChart(svgEl, rawData, estCasesProp, confCasesProp, dateProp) {
+var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, estCasesProp, confCasesProp, dateProp) {
   var svg = d3__WEBPACK_IMPORTED_MODULE_14__["select"](svgEl);
   var dataToUse = cleanUpData(rawData, dateProp, estCasesProp, confCasesProp);
   var maxCases = d3__WEBPACK_IMPORTED_MODULE_14__["max"](dataToUse.map(function (d) {
@@ -55976,7 +55978,9 @@ var makeColChart = function makeColChart(svgEl, rawData, estCasesProp, confCases
   }));
   var minDate = startDate;
   var estPercentInfected = calculatePercentInfected(dataToUse, estCasesProp);
-  var confPercentInfected = calculatePercentInfected(dataToUse, confCasesProp); // SCALES 
+  var confPercentInfected = calculatePercentInfected(dataToUse, confCasesProp);
+  infoBoxes[0].textContent = "".concat(confPercentInfected, "%");
+  infoBoxes[1].textContent = "".concat(estPercentInfected, "%"); // SCALES 
 
   var yScale = d3__WEBPACK_IMPORTED_MODULE_14__["scaleLinear"]().domain([0, maxCases]).range([h - margin.top - margin.bottom, 0]);
   var xScale = d3__WEBPACK_IMPORTED_MODULE_14__["scaleTime"]().domain([minDate, maxDate]).range([0, w - margin.left - margin.right]);
@@ -55986,7 +55990,7 @@ var makeColChart = function makeColChart(svgEl, rawData, estCasesProp, confCases
   .range([0, w - margin.left - margin.right]).padding(0.05); // AXES 
 
   var xAxis = d3__WEBPACK_IMPORTED_MODULE_14__["axisBottom"](xScale).scale(xScale).tickSize(isWide ? 5 : 10).tickFormat(d3__WEBPACK_IMPORTED_MODULE_14__["timeFormat"]("%b"));
-  var yAxis = d3__WEBPACK_IMPORTED_MODULE_14__["axisRight"](yScale).scale(yScale).tickSize(w - margin.left).ticks(8);
+  var yAxis = d3__WEBPACK_IMPORTED_MODULE_14__["axisRight"](yScale).scale(yScale).tickSize(w - margin.left).ticks(4);
   svg.append("g").attr("class", "x axis").attr("transform", "translate(".concat(margin.left, ",").concat(h - 15, ")")) //sorry shouldn't need to do this 
   .call(xAxis).select(".domain").remove();
   svg.append("g").attr("class", "y axis").attr("transform", "translate(".concat(margin.left, ",").concat(-margin.top, ")")).call(yAxis).select(".domain").remove();
@@ -56013,12 +56017,6 @@ var makeColChart = function makeColChart(svgEl, rawData, estCasesProp, confCases
   }).style("opacity", 0.5); // SUMMARY BOX 
 
   var summaryBox = svg.append("g").attr("id", "summary-box").attr("transform", "translate(".concat(w - sumBoxW, ",").concat(margin.top, ")"));
-  summaryBox.append("text").text("people infected:").append("text");
-  summaryBox.append("text").text("".concat(confPercentInfected, "% confirmed")).attr("dy", "20");
-  summaryBox.append("text").text(" ".concat(estPercentInfected, "% estimated")).attr("dy", "40"); // .append("rect")
-  // .attr("height", sumBoxH )
-  // .attr("width", sumBoxW )
-  // .attr("fill", "red")
 };
 
 
@@ -56029,12 +56027,11 @@ var makeColChart = function makeColChart(svgEl, rawData, estCasesProp, confCases
 /*!*******************************!*\
   !*** ./shared/js/get-data.js ***!
   \*******************************/
-/*! exports provided: getNations, getUtlas */
+/*! exports provided: getUtlas */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getNations", function() { return getNations; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getUtlas", function() { return getUtlas; });
 /* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
 /* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_0__);
@@ -56052,12 +56049,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 // const gbUrl = "https://gdn-cdn.s3.amazonaws.com/2020/coronavirus-uk-local-data/v5/gb-utlas.json";
-var nationsUrl = "https://gdn-cdn.s3.amazonaws.com/2020/coronavirus-uk-local-data/v5/gb-nations.json"; // estimated and actual data at a national level
+// estimated and actual data at a national level
+var ultaData = "https://interactive.guim.co.uk/docsdata-test/1jRtPuGUxZxb-RvWIGIqdQspgqWWKpZrsQgrsNxvGKb4.json"; // get estimated and actual cases by utla 
 
-var engData = "";
-var ultaData = "https://interactive.guim.co.uk/docsdata-test/1jRtPuGUxZxb-RvWIGIqdQspgqWWKpZrsQgrsNxvGKb4.json"; // get nations level data 
-
-var getNations = /*#__PURE__*/function () {
+var getUtlas = /*#__PURE__*/function () {
   var _ref = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.mark(function _callee() {
     var res;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.wrap(function _callee$(_context) {
@@ -56065,7 +56060,7 @@ var getNations = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return fetch(nationsUrl);
+            return fetch(ultaData);
 
           case 2:
             res = _context.sent;
@@ -56079,36 +56074,8 @@ var getNations = /*#__PURE__*/function () {
     }, _callee);
   }));
 
-  return function getNations() {
-    return _ref.apply(this, arguments);
-  };
-}(); // get estimated and actual cases by utla 
-
-
-var getUtlas = /*#__PURE__*/function () {
-  var _ref2 = _babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_4___default()( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.mark(function _callee2() {
-    var res;
-    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_2___default.a.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            _context2.next = 2;
-            return fetch(ultaData);
-
-          case 2:
-            res = _context2.sent;
-            return _context2.abrupt("return", res.json());
-
-          case 4:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  }));
-
   return function getUtlas() {
-    return _ref2.apply(this, arguments);
+    return _ref.apply(this, arguments);
   };
 }();
 
