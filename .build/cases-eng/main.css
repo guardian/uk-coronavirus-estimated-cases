@@ -417,10 +417,11 @@
           flex-wrap: wrap; }
 
 .multiple {
+  margin-top: 20px;
   margin-bottom: 16px;
   -webkit-flex: 0 0 400px;
           flex: 0 0 400px;
-  margin-top: 10px; }
+  margin-right: 10px; }
 
 .gv-subhead {
   display: -webkit-flex;
@@ -473,9 +474,6 @@
 
 .gv-headline {
   margin-bottom: 12px; }
-  @media (min-width: 28.125em) {
-    .gv-headline {
-      margin-bottom: 20px; } }
 
 .timestamp {
   font-size: 16px;

@@ -19,9 +19,10 @@
 }
 
 .multiple {
+	margin-top: 20px;
 	margin-bottom: 16px;
 	flex: 0 0 400px;
-	margin-top: 10px;
+	margin-right: 10px;
 }
 
 
@@ -89,9 +90,6 @@
 }
 .gv-headline {
 	margin-bottom: 12px;
-	@include mq(mobileLarge) {
-        margin-bottom: 20px;
-    }
 }
 
 .timestamp{	
