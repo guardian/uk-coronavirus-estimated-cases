@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { easeCubicInOut } from "d3";
+import { easeCubicInOut, easeCubicOut } from "d3";
 import moment from "moment"
 
 // line chart showing uk total over time 
@@ -52,6 +52,31 @@ const cleanUpData = (data, dateProp, estCasesProp, confCasesProp) => {
     return dataAsNum;
 }
 
+// const animateSpan = (estSpan)
+
+const animateBars = (estCols, yScale, h, estSpan, estValue) => {
+    // add transition to each bar 
+    const numCols = estCols._groups[0].length;
+
+    estCols.transition()
+        .duration(300)
+        .ease(easeCubicInOut)
+        .delay((_,i) => i * 150)
+        .attr("height", (d) => h - margin.top - margin.bottom - yScale(d[estCasesProp]))
+        .attr("y", d => yScale(d[estCasesProp]))
+
+    estSpan.transition()
+        .duration((numCols -10) * 150)
+        .delay(150 * 10)
+        .ease(easeCubicOut)
+        .textTween(() => {
+            let interpolator = d3.interpolateNumber(0.0, estValue);
+            return (t) => {
+                return `${parseFloat(interpolator(t)).toFixed(1)}%`;
+            }
+        });
+}
+
 
 const makeColChart = (svgEl, infoBoxes, rawData, config) => {
     const svg = d3.select(svgEl)
@@ -72,7 +97,8 @@ const makeColChart = (svgEl, infoBoxes, rawData, config) => {
     const confPercentInfected = calculatePercentInfected(dataToUse, confCasesProp)
 
     infoBoxes[0].textContent = `${confPercentInfected}%`;
-    infoBoxes[1].textContent = `${estPercentInfected}%`;
+    const estSpan = d3.select(infoBoxes[1]);
+    // estSpan.textContent = `${estPercentInfected}%`;
 
 
     // SCALES 
@@ -155,16 +181,25 @@ const makeColChart = (svgEl, infoBoxes, rawData, config) => {
         .attr("height", 0)
 
 
-    // add transition to each bar 
 
-    estCols.transition()
-        .duration(300)
-        .ease(easeCubicInOut)
-        .delay((_,i) => i * 100)
-        .attr("height", (d) => h - margin.top - margin.bottom - yScale(d[estCasesProp]))
-        .attr("y", d => yScale(d[estCasesProp]))
+    // add transition to each bar WHEN 
+    let options = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 1.0
+      }
 
+    let callback = (entries, observer) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) {
+                animateBars(estCols, yScale, h, estSpan, estPercentInfected)
+            }
 
+        });
+      };
+      
+    let observer = new IntersectionObserver( callback, options);
+    observer.observe(svgEl);
 
 }
 

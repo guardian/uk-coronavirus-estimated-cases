@@ -33,10 +33,17 @@
 .gv-subhead {
 	display: flex;
 	margin-bottom: 12px;
+	justify-content: space-between;
+	@include mq(mobileLandscape){
+		justify-content: flex-start;
+	}
 	.info-box {
 		font-family: 'Guardian Text Sans Web', Arial, sans-serif;
-		flex: 0 0 150px;
+		flex: 0 0 auto;
 		font-size: 14px;
+		@include mq(mobileLandscape){
+			flex: 0 0 150px;
+		}
 
 		p { 
 			margin: 0;

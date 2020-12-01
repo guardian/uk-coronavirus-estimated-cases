@@ -428,12 +428,22 @@
 .gv-subhead {
   display: -webkit-flex;
   display: flex;
-  margin-bottom: 12px; }
+  margin-bottom: 12px;
+  -webkit-justify-content: space-between;
+          justify-content: space-between; }
+  @media (min-width: 30em) {
+    .gv-subhead {
+      -webkit-justify-content: flex-start;
+              justify-content: flex-start; } }
   .gv-subhead .info-box {
     font-family: 'Guardian Text Sans Web', Arial, sans-serif;
-    -webkit-flex: 0 0 150px;
-            flex: 0 0 150px;
+    -webkit-flex: 0 0 auto;
+            flex: 0 0 auto;
     font-size: 14px; }
+    @media (min-width: 30em) {
+      .gv-subhead .info-box {
+        -webkit-flex: 0 0 150px;
+                flex: 0 0 150px; } }
     .gv-subhead .info-box p {
       margin: 0; }
     .gv-subhead .info-box span {

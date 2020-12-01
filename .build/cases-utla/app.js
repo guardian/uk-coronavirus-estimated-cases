@@ -55970,6 +55970,25 @@ var cleanUpData = function cleanUpData(data, dateProp, estCasesProp, confCasesPr
     return _objectSpread(_objectSpread({}, d), {}, (_objectSpread2 = {}, _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_13___default()(_objectSpread2, estCasesProp, estCasesNum), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_13___default()(_objectSpread2, confCasesProp, confCasesNum), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_13___default()(_objectSpread2, dateProp, dateClean), _objectSpread2));
   });
   return dataAsNum;
+}; // const animateSpan = (estSpan)
+
+
+var animateBars = function animateBars(estCols, yScale, h, estSpan, estValue) {
+  // add transition to each bar 
+  var numCols = estCols._groups[0].length;
+  estCols.transition().duration(300).ease(d3__WEBPACK_IMPORTED_MODULE_14__["easeCubicInOut"]).delay(function (_, i) {
+    return i * 150;
+  }).attr("height", function (d) {
+    return h - margin.top - margin.bottom - yScale(d[estCasesProp]);
+  }).attr("y", function (d) {
+    return yScale(d[estCasesProp]);
+  });
+  estSpan.transition().duration((numCols - 10) * 150).delay(150 * 10).ease(d3__WEBPACK_IMPORTED_MODULE_14__["easeCubicOut"]).textTween(function () {
+    var interpolator = d3__WEBPACK_IMPORTED_MODULE_14__["interpolateNumber"](0.0, estValue);
+    return function (t) {
+      return "".concat(parseFloat(interpolator(t)).toFixed(1), "%");
+    };
+  });
 };
 
 var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config) {
@@ -55989,7 +56008,8 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config) {
   var estPercentInfected = calculatePercentInfected(dataToUse, estCasesProp);
   var confPercentInfected = calculatePercentInfected(dataToUse, confCasesProp);
   infoBoxes[0].textContent = "".concat(confPercentInfected, "%");
-  infoBoxes[1].textContent = "".concat(estPercentInfected, "%"); // SCALES 
+  var estSpan = d3__WEBPACK_IMPORTED_MODULE_14__["select"](infoBoxes[1]); // estSpan.textContent = `${estPercentInfected}%`;
+  // SCALES 
 
   var yScale = d3__WEBPACK_IMPORTED_MODULE_14__["scaleLinear"]().domain([0, maxCases]).range([h - margin.top - margin.bottom, 0]);
   var xScale = d3__WEBPACK_IMPORTED_MODULE_14__["scaleTime"]().domain([minDate, maxDate]).range([0, w - margin.left - margin.right]);
@@ -56020,15 +56040,24 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config) {
   var estCols = svg.selectAll(".col-est").data(dataToUse).join("rect").attr("class", "col-est").attr("fill", "".concat(estColor)).attr("width", xScaleCol.bandwidth()).attr("transform", function (d) {
     return "translate(".concat(xScaleCol(d[dateProp]), ",0)");
   }).attr("y", h - margin.top - margin.bottom) //?? hate this margin thing
-  .style("opacity", 0.5).attr("height", 0); // add transition to each bar 
+  .style("opacity", 0.5).attr("height", 0); // add transition to each bar WHEN 
 
-  estCols.transition().duration(300).ease(d3__WEBPACK_IMPORTED_MODULE_14__["easeCubicInOut"]).delay(function (_, i) {
-    return i * 100;
-  }).attr("height", function (d) {
-    return h - margin.top - margin.bottom - yScale(d[estCasesProp]);
-  }).attr("y", function (d) {
-    return yScale(d[estCasesProp]);
-  });
+  var options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 1.0
+  };
+
+  var callback = function callback(entries, observer) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        animateBars(estCols, yScale, h, estSpan, estPercentInfected);
+      }
+    });
+  };
+
+  var observer = new IntersectionObserver(callback, options);
+  observer.observe(svgEl);
 };
 
 
