@@ -200,6 +200,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 var svg = document.querySelector("#gv-svg-col-chart");
 var infoSpans = document.querySelectorAll(".info-box span");
+var isWide = window.innerWidth > 450;
+var w = isWide ? 600 : 300;
+var h = isWide ? 400 : 200;
 
 var compressArray = function compressArray(dateArr) {
   return dateArr.reduce(function (acc, curr) {
@@ -264,8 +267,8 @@ var run = /*#__PURE__*/function () {
 
             summedByDate = getSumForDate(allData);
             config = {
-              w: 800,
-              h: 400
+              w: w,
+              h: h
             };
             Object(_shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_23__["makeColChart"])(svg, infoSpans, summedByDate, config);
 
@@ -57698,7 +57701,7 @@ var dateProp = 'dateOfNewCaseLagged';
 var margin = {
   top: 5,
   left: 15,
-  bottom: 5,
+  bottom: 10,
   right: 5
 };
 var confColor = "#c70000";
@@ -57733,7 +57736,9 @@ var cleanUpData = function cleanUpData(data, dateProp, estCasesProp, confCasesPr
 var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config) {
   var svg = d3__WEBPACK_IMPORTED_MODULE_14__["select"](svgEl);
   var w = config.w,
-      h = config.h;
+      h = config.h; //set svg width and viewbox 
+
+  svg.attr("width", w).attr("height", h).attr("viewBox", "0,0,".concat(w, ",").concat(h));
   var dataToUse = cleanUpData(rawData, dateProp, estCasesProp, confCasesProp);
   var maxCases = d3__WEBPACK_IMPORTED_MODULE_14__["max"](dataToUse.map(function (d) {
     return d[estCasesProp];
@@ -57756,33 +57761,34 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config) {
 
   var xAxis = d3__WEBPACK_IMPORTED_MODULE_14__["axisBottom"](xScale).scale(xScale).tickSize(isWide ? 5 : 10).tickFormat(d3__WEBPACK_IMPORTED_MODULE_14__["timeFormat"]("%b"));
   var yAxis = d3__WEBPACK_IMPORTED_MODULE_14__["axisRight"](yScale).scale(yScale).tickSize(w - margin.left).ticks(4);
-  svg.append("g").attr("class", "x axis").attr("transform", "translate(".concat(margin.left, ",").concat(h - margin.top - margin.bottom, ")")) //sorry shouldn't need to do this 
+  svg.append("g").attr("class", "x axis").attr("transform", "translate(".concat(margin.left, ",").concat(h - margin.bottom - margin.top, ")")) //sorry shouldn't need to do this 
   .call(xAxis).select(".domain").remove();
-  svg.append("g").attr("class", "y axis").attr("transform", "translate(".concat(margin.left, ",").concat(-margin.top, ")")).call(yAxis).select(".domain").remove();
+  svg.append("g").attr("class", "y axis").attr("transform", "translate(".concat(margin.left, ",0)")).call(yAxis).select(".domain").remove();
   d3__WEBPACK_IMPORTED_MODULE_14__["selectAll"]('.y .tick text').attr('transform', "translate(".concat(-w, ",").concat(isWide ? -7 : -12, " )"));
   d3__WEBPACK_IMPORTED_MODULE_14__["selectAll"]('.y .tick line').style("stroke-dasharray", "1, 1"); //move first x tick over on mobile
-
-  d3__WEBPACK_IMPORTED_MODULE_14__["select"]('.x .tick text').attr("dx", isWide ? 0 : 10); // COLUMNS CONFIRMED 
+  // d3.select('.x .tick text')
+  //   .attr("dx", isWide ? 0 : 10)
+  // COLUMNS CONFIRMED 
 
   svg.selectAll(".col-conf").data(dataToUse).join("rect").attr("class", "col-conf").attr("fill", "".concat(confColor)).attr("width", xScaleCol.bandwidth()).attr("height", function (d, i) {
     return h - margin.top - margin.bottom - yScale(d[confCasesProp]);
   }).attr("transform", function (d) {
     return "translate(".concat(xScaleCol(d[dateProp]), ",0)");
   }).attr("y", function (d) {
-    return yScale(d[confCasesProp]) - margin.top;
+    return yScale(d[confCasesProp]);
   }).style("opacity", 0.5); // COLUMNS ESTMATED 
 
   var estCols = svg.selectAll(".col-est").data(dataToUse).join("rect").attr("class", "col-est").attr("fill", "".concat(estColor)).attr("width", xScaleCol.bandwidth()).attr("transform", function (d) {
     return "translate(".concat(xScaleCol(d[dateProp]), ",0)");
-  }).attr("y", h - margin.top - margin.bottom * 2) //?? hate this margin thing
+  }).attr("y", h - margin.top - margin.bottom) //?? hate this margin thing
   .style("opacity", 0.5).attr("height", 0); // add transition to each bar 
 
   estCols.transition().duration(300).ease(d3__WEBPACK_IMPORTED_MODULE_14__["easeCubicInOut"]).delay(function (_, i) {
     return i * 100;
-  }).attr("height", function (d, i) {
+  }).attr("height", function (d) {
     return h - margin.top - margin.bottom - yScale(d[estCasesProp]);
   }).attr("y", function (d) {
-    return yScale(d[estCasesProp]) - margin.top;
+    return yScale(d[estCasesProp]);
   });
 };
 

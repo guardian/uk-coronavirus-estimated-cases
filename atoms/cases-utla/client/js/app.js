@@ -2,7 +2,8 @@ import {makeColChart} from "shared/js/column-chart.js"
 import {getUtlas} from "shared/js/get-data.js";
 
 const svgBoxes = document.querySelectorAll('.multiple');
-const infoSpans = document.querySelectorAll(".info-box span");
+const w = 300
+const h = 250
 
 // should we pick the ones with the biggest gap? or the highest estimated rate? 
 // places 
@@ -20,7 +21,7 @@ const makeUtlaChart = (svgBox, utlaData, utlaName) => {
   svgBox.querySelector('#utla-name').textContent = utlaName;
   const svg = svgBox.querySelector("#gv-svg-col-chart");
   const infoSpans = svgBox.querySelectorAll(".info-box span");
-  const config = {w: 400, h: 200}
+  const config = {w, h}
   makeColChart(svg, infoSpans, utlaData, config)
 }
 

@@ -9,6 +9,9 @@
 // 	max-width: 860px;
 // }
 
+.eng-graph {
+	max-width: 600px;
+}
 
 // multiples grid 
 
@@ -66,13 +69,13 @@
 	text{
 		font-family: 'Guardian Text Sans Web', Arial, sans-serif;
 	    font-weight: 400;
-	    line-height: 16px;
+	    line-height: 14px;
 	    text-align: left;
 	    fill: rgb(146,146,151);
 		font-style: normal;
-	    font-size: 24px;
+	    font-size: 14px;
 		@include mq(mobileLarge) {
-			font-size: 16px;
+			font-size: 14px;
 		  }
 	}
 }

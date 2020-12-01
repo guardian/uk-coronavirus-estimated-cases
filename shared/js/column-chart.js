@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { easeCubicInOut, easeElasticOut, easeSinOut } from "d3";
+import { easeCubicInOut } from "d3";
 import moment from "moment"
 
 // line chart showing uk total over time 
@@ -26,7 +26,7 @@ const estCasesProp = 'estimatedWeeklyNewCases';
 const confCasesProp = 'confirmedWeeklyNewCases';
 const dateProp = 'dateOfNewCaseLagged';
 
-const margin = {top: 5, left: 15, bottom: 5, right: 5};
+const margin = {top: 5, left: 15, bottom: 10, right: 5};
 const confColor = "#c70000";
 const estColor = "grey";
 const startDate = new Date(moment("16/12/2019", dateFormat));
@@ -56,6 +56,11 @@ const cleanUpData = (data, dateProp, estCasesProp, confCasesProp) => {
 const makeColChart = (svgEl, infoBoxes, rawData, config) => {
     const svg = d3.select(svgEl)
     const {w, h} = config;
+
+    //set svg width and viewbox 
+    svg.attr("width", w)
+    .attr("height", h)
+    .attr("viewBox", `0,0,${w},${h}`)
 
     const dataToUse = cleanUpData(rawData, dateProp, estCasesProp, confCasesProp);
 
@@ -98,13 +103,13 @@ const makeColChart = (svgEl, infoBoxes, rawData, config) => {
 
     svg.append("g")
         .attr("class", "x axis")
-        .attr("transform", `translate(${margin.left},${h - margin.top - margin.bottom})`) //sorry shouldn't need to do this 
+        .attr("transform", `translate(${margin.left},${ h - margin.bottom - margin.top})`) //sorry shouldn't need to do this 
         .call(xAxis)
         .select(".domain").remove()
 
     svg.append("g")
         .attr("class", "y axis")
-        .attr("transform", `translate(${margin.left},${-margin.top})`)
+        .attr("transform", `translate(${margin.left},0)`)
         .call(yAxis)
         .select(".domain").remove()
     
@@ -115,8 +120,8 @@ const makeColChart = (svgEl, infoBoxes, rawData, config) => {
         .style("stroke-dasharray", ("1, 1"))
     
     //move first x tick over on mobile
-    d3.select('.x .tick text')
-      .attr("dx", isWide ? 0 : 10)
+    // d3.select('.x .tick text')
+    //   .attr("dx", isWide ? 0 : 10)
 
     // COLUMNS CONFIRMED 
     svg.selectAll(".col-conf")
@@ -131,7 +136,7 @@ const makeColChart = (svgEl, infoBoxes, rawData, config) => {
         .attr("transform", (d) => {
             return `translate(${xScaleCol(d[dateProp])},0)`
         })
-        .attr("y", d => yScale(d[confCasesProp]) - margin.top)
+        .attr("y", d => yScale(d[confCasesProp]))
         .style("opacity", 0.5)
 
 
@@ -145,7 +150,7 @@ const makeColChart = (svgEl, infoBoxes, rawData, config) => {
         .attr("transform", (d) => {
             return `translate(${xScaleCol(d[dateProp])},0)`
         })
-        .attr("y", h - margin.top  - margin.bottom * 2) //?? hate this margin thing
+        .attr("y", h - margin.top - margin.bottom) //?? hate this margin thing
         .style("opacity", 0.5)
         .attr("height", 0)
 
@@ -156,8 +161,8 @@ const makeColChart = (svgEl, infoBoxes, rawData, config) => {
         .duration(300)
         .ease(easeCubicInOut)
         .delay((_,i) => i * 100)
-        .attr("height", (d,i) => h - margin.top - margin.bottom - yScale(d[estCasesProp]))
-        .attr("y", d => yScale(d[estCasesProp]) - margin.top)
+        .attr("height", (d) => h - margin.top - margin.bottom - yScale(d[estCasesProp]))
+        .attr("y", d => yScale(d[estCasesProp]))
 
 
 
