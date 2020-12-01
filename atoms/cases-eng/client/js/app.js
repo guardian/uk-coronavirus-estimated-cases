@@ -79,8 +79,8 @@ const run = async () => {
     const allData = data.sheets.weekly_cases_est_and_PHE_UTLA;
     //sort by date and sum all england for each date 
     const summedByDate = getSumForDate(allData);
-    
-    makeColChart(svg, infoSpans, summedByDate, 'estimatedWeeklyNewCases', 'confirmedWeeklyNewCases', 'dateOfNewCaseLagged')
+    const config = {w: 800, h: 400}
+    makeColChart(svg, infoSpans, summedByDate, config)
   
     if (window.resize) {
       window.resize();

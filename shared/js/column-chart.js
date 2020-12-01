@@ -19,14 +19,15 @@ import moment from "moment"
     // weeklyDeaths: "0"
 // }
 
-const w = 500;
-const h = 350;
+// const w = 500;
+// const h = 350;
 const isWide = window.innerWidth > 450;
 const dateFormat = "D/M/YYYY"
+const estCasesProp = 'estimatedWeeklyNewCases'; 
+const confCasesProp = 'confirmedWeeklyNewCases';
+const dateProp = 'dateOfNewCaseLagged';
 
 const margin = {top: 5, left: 15, bottom: 5, right: 5};
-const sumBoxW = w / 6;
-const sumBoxH = h / 6;
 const confColor = "#c70000";
 const estColor = "grey";
 const startDate = new Date(moment("16/12/2019", dateFormat));
@@ -52,8 +53,9 @@ const cleanUpData = (data, dateProp, estCasesProp, confCasesProp) => {
     return dataAsNum;
 }
 
-const makeColChart = (svgEl, infoBoxes, rawData, estCasesProp, confCasesProp, dateProp) => {
+const makeColChart = (svgEl, infoBoxes, rawData, config) => {
     const svg = d3.select(svgEl)
+    const {w, h} = config;
 
     const dataToUse = cleanUpData(rawData, dateProp, estCasesProp, confCasesProp);
 
@@ -148,10 +150,6 @@ const makeColChart = (svgEl, infoBoxes, rawData, estCasesProp, confCasesProp, da
         .attr("y", d => yScale(d[confCasesProp]) - margin.top)
         .style("opacity", 0.5)
 
-    // SUMMARY BOX 
-    const summaryBox = svg.append("g")
-        .attr("id", "summary-box")
-        .attr("transform", `translate(${w -sumBoxW},${margin.top})`)
 
 }
 

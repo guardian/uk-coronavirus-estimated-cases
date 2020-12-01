@@ -20,7 +20,8 @@ const makeUtlaChart = (svgBox, utlaData, utlaName) => {
   svgBox.querySelector('#utla-name').textContent = utlaName;
   const svg = svgBox.querySelector("#gv-svg-col-chart");
   const infoSpans = svgBox.querySelectorAll(".info-box span");
-  makeColChart(svg, infoSpans, utlaData, 'estimatedWeeklyNewCases', 'confirmedWeeklyNewCases', 'dateOfNewCaseLagged')
+  const config = {w: 400, h: 200}
+  makeColChart(svg, infoSpans, utlaData, config)
 }
 
 
