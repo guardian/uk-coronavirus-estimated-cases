@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import { easeCubicInOut, easeElasticOut, easeSinOut } from "d3";
 import moment from "moment"
 
 // line chart showing uk total over time 
@@ -19,8 +20,6 @@ import moment from "moment"
     // weeklyDeaths: "0"
 // }
 
-// const w = 500;
-// const h = 350;
 const isWide = window.innerWidth > 450;
 const dateFormat = "D/M/YYYY"
 const estCasesProp = 'estimatedWeeklyNewCases'; 
@@ -52,6 +51,7 @@ const cleanUpData = (data, dateProp, estCasesProp, confCasesProp) => {
 
     return dataAsNum;
 }
+
 
 const makeColChart = (svgEl, infoBoxes, rawData, config) => {
     const svg = d3.select(svgEl)
@@ -98,7 +98,7 @@ const makeColChart = (svgEl, infoBoxes, rawData, config) => {
 
     svg.append("g")
         .attr("class", "x axis")
-        .attr("transform", `translate(${margin.left},${h - 15})`) //sorry shouldn't need to do this 
+        .attr("transform", `translate(${margin.left},${h - margin.top - margin.bottom})`) //sorry shouldn't need to do this 
         .call(xAxis)
         .select(".domain").remove()
 
@@ -118,22 +118,6 @@ const makeColChart = (svgEl, infoBoxes, rawData, config) => {
     d3.select('.x .tick text')
       .attr("dx", isWide ? 0 : 10)
 
-    // COLUMNS ESTMATED 
-    svg.selectAll(".col-est")
-        .data(dataToUse)   
-        .join("rect")
-        .attr("class", "col-est")
-        .attr("fill", `${estColor}`)
-        .attr("width", xScaleCol.bandwidth())
-        .attr("height", (d,i) => {
-            return h - margin.top - margin.bottom - yScale(d[estCasesProp]);
-        })
-        .attr("transform", (d) => {
-            return `translate(${xScaleCol(d[dateProp])},0)`
-        })
-        .attr("y", d => yScale(d[estCasesProp]) - margin.top) //??
-        .style("opacity", 0.5)
-
     // COLUMNS CONFIRMED 
     svg.selectAll(".col-conf")
         .data(dataToUse)   
@@ -149,6 +133,32 @@ const makeColChart = (svgEl, infoBoxes, rawData, config) => {
         })
         .attr("y", d => yScale(d[confCasesProp]) - margin.top)
         .style("opacity", 0.5)
+
+
+    // COLUMNS ESTMATED 
+    const estCols = svg.selectAll(".col-est")
+        .data(dataToUse)   
+        .join("rect")
+        .attr("class", "col-est")
+        .attr("fill", `${estColor}`)
+        .attr("width", xScaleCol.bandwidth())
+        .attr("transform", (d) => {
+            return `translate(${xScaleCol(d[dateProp])},0)`
+        })
+        .attr("y", h - margin.top  - margin.bottom * 2) //?? hate this margin thing
+        .style("opacity", 0.5)
+        .attr("height", 0)
+
+
+    // add transition to each bar 
+
+    estCols.transition()
+        .duration(300)
+        .ease(easeCubicInOut)
+        .delay((_,i) => i * 100)
+        .attr("height", (d,i) => h - margin.top - margin.bottom - yScale(d[estCasesProp]))
+        .attr("y", d => yScale(d[estCasesProp]) - margin.top)
+
 
 
 }

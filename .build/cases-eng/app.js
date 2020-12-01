@@ -57672,6 +57672,7 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_13___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 
+
  // line chart showing uk total over time 
 // DATA FORMAT 
 // {
@@ -57688,8 +57689,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 // utlaName: "Newham"
 // weeklyDeaths: "0"
 // }
-// const w = 500;
-// const h = 350;
 
 var isWide = window.innerWidth > 450;
 var dateFormat = "D/M/YYYY";
@@ -57757,22 +57756,13 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config) {
 
   var xAxis = d3__WEBPACK_IMPORTED_MODULE_14__["axisBottom"](xScale).scale(xScale).tickSize(isWide ? 5 : 10).tickFormat(d3__WEBPACK_IMPORTED_MODULE_14__["timeFormat"]("%b"));
   var yAxis = d3__WEBPACK_IMPORTED_MODULE_14__["axisRight"](yScale).scale(yScale).tickSize(w - margin.left).ticks(4);
-  svg.append("g").attr("class", "x axis").attr("transform", "translate(".concat(margin.left, ",").concat(h - 15, ")")) //sorry shouldn't need to do this 
+  svg.append("g").attr("class", "x axis").attr("transform", "translate(".concat(margin.left, ",").concat(h - margin.top - margin.bottom, ")")) //sorry shouldn't need to do this 
   .call(xAxis).select(".domain").remove();
   svg.append("g").attr("class", "y axis").attr("transform", "translate(".concat(margin.left, ",").concat(-margin.top, ")")).call(yAxis).select(".domain").remove();
   d3__WEBPACK_IMPORTED_MODULE_14__["selectAll"]('.y .tick text').attr('transform', "translate(".concat(-w, ",").concat(isWide ? -7 : -12, " )"));
   d3__WEBPACK_IMPORTED_MODULE_14__["selectAll"]('.y .tick line').style("stroke-dasharray", "1, 1"); //move first x tick over on mobile
 
-  d3__WEBPACK_IMPORTED_MODULE_14__["select"]('.x .tick text').attr("dx", isWide ? 0 : 10); // COLUMNS ESTMATED 
-
-  svg.selectAll(".col-est").data(dataToUse).join("rect").attr("class", "col-est").attr("fill", "".concat(estColor)).attr("width", xScaleCol.bandwidth()).attr("height", function (d, i) {
-    return h - margin.top - margin.bottom - yScale(d[estCasesProp]);
-  }).attr("transform", function (d) {
-    return "translate(".concat(xScaleCol(d[dateProp]), ",0)");
-  }).attr("y", function (d) {
-    return yScale(d[estCasesProp]) - margin.top;
-  }) //??
-  .style("opacity", 0.5); // COLUMNS CONFIRMED 
+  d3__WEBPACK_IMPORTED_MODULE_14__["select"]('.x .tick text').attr("dx", isWide ? 0 : 10); // COLUMNS CONFIRMED 
 
   svg.selectAll(".col-conf").data(dataToUse).join("rect").attr("class", "col-conf").attr("fill", "".concat(confColor)).attr("width", xScaleCol.bandwidth()).attr("height", function (d, i) {
     return h - margin.top - margin.bottom - yScale(d[confCasesProp]);
@@ -57780,7 +57770,20 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config) {
     return "translate(".concat(xScaleCol(d[dateProp]), ",0)");
   }).attr("y", function (d) {
     return yScale(d[confCasesProp]) - margin.top;
-  }).style("opacity", 0.5);
+  }).style("opacity", 0.5); // COLUMNS ESTMATED 
+
+  var estCols = svg.selectAll(".col-est").data(dataToUse).join("rect").attr("class", "col-est").attr("fill", "".concat(estColor)).attr("width", xScaleCol.bandwidth()).attr("transform", function (d) {
+    return "translate(".concat(xScaleCol(d[dateProp]), ",0)");
+  }).attr("y", h - margin.top - margin.bottom * 2) //?? hate this margin thing
+  .style("opacity", 0.5).attr("height", 0); // add transition to each bar 
+
+  estCols.transition().duration(300).ease(d3__WEBPACK_IMPORTED_MODULE_14__["easeCubicInOut"]).delay(function (_, i) {
+    return i * 100;
+  }).attr("height", function (d, i) {
+    return h - margin.top - margin.bottom - yScale(d[estCasesProp]);
+  }).attr("y", function (d) {
+    return yScale(d[estCasesProp]) - margin.top;
+  });
 };
 
 
