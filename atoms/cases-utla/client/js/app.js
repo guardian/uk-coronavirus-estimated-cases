@@ -22,7 +22,7 @@ const makeUtlaChart = (svgBox, utlaData, utlaName) => {
   const svg = svgBox.querySelector("#gv-svg-col-chart");
   const infoSpans = svgBox.querySelectorAll(".info-box span");
   const config = {w, h}
-  makeColChart(svg, infoSpans, utlaData, config)
+  makeColChart(svg, infoSpans, utlaData, config, true)
 }
 
 

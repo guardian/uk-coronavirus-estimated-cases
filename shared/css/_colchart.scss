@@ -4,11 +4,15 @@
 	padding: 0;
 	padding-top: 20px;
 	padding-bottom: 20px;
+	background-color: white;
 }
 
-// .interactive-wrapper{
-// 	max-width: 860px;
-// }
+.interactive-wrapper {
+	background-color: white;
+	border-top: 2px solid #e5e5e5;
+	border-bottom: 2px solid #e5e5e5;
+	padding: 3px 0;
+}
 
 .eng-graph {
 	max-width: 600px;

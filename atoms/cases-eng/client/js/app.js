@@ -84,7 +84,7 @@ const run = async () => {
     //sort by date and sum all england for each date 
     const summedByDate = getSumForDate(allData);
     const config = {w, h}
-    makeColChart(svg, infoSpans, summedByDate, config)
+    makeColChart(svg, infoSpans, summedByDate, config, false)
   
     if (window.resize) {
       window.resize();

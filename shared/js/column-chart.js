@@ -31,6 +31,22 @@ const confColor = "#c70000";
 const estColor = "grey";
 const startDate = new Date(moment("16/12/2019", dateFormat));
 
+
+let isIntersectionObserverAvailable = true;
+
+if (!('IntersectionObserver' in window) ||
+    !('IntersectionObserverEntry' in window) ||
+    !('intersectionRatio' in window.IntersectionObserverEntry.prototype)) {
+        isIntersectionObserverAvailable = false;
+}
+
+const intersectionOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.9
+  }
+
+
 const calculatePercentInfected = (data, casesProp) => {
     const totalCases = data.reduce((acc, curr) => acc += curr[casesProp], 0)
     const population = parseInt(data[0].population);
@@ -51,8 +67,6 @@ const cleanUpData = (data, dateProp, estCasesProp, confCasesProp) => {
 
     return dataAsNum;
 }
-
-// const animateSpan = (estSpan)
 
 const animateBars = (estCols, yScale, h, estSpan, estValue) => {
     // add transition to each bar 
@@ -78,9 +92,10 @@ const animateBars = (estCols, yScale, h, estSpan, estValue) => {
 }
 
 
-const makeColChart = (svgEl, infoBoxes, rawData, config) => {
+const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple) => {
     const svg = d3.select(svgEl)
     const {w, h} = config;
+    let hasAnimationRun = false;
 
     //set svg width and viewbox 
     svg.attr("width", w)
@@ -96,10 +111,8 @@ const makeColChart = (svgEl, infoBoxes, rawData, config) => {
     const estPercentInfected = calculatePercentInfected(dataToUse, estCasesProp)
     const confPercentInfected = calculatePercentInfected(dataToUse, confCasesProp)
 
-    infoBoxes[0].textContent = `${confPercentInfected}%`;
-    const estSpan = d3.select(infoBoxes[1]);
-    // estSpan.textContent = `${estPercentInfected}%`;
-
+    infoBoxes[1].textContent = `${confPercentInfected}%`;
+    const estSpan = d3.select(infoBoxes[0]);
 
     // SCALES 
     const yScale = d3.scaleLinear()
@@ -181,26 +194,38 @@ const makeColChart = (svgEl, infoBoxes, rawData, config) => {
         .attr("height", 0)
 
 
+    if(isIntersectionObserverAvailable) {
+        // add transition to each bar WHEN fully onscreen
+        const intersectionCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting && !hasAnimationRun) {
+                    animateBars(estCols, yScale, h, estSpan, estPercentInfected)
+                    hasAnimationRun = true; 
 
-    // add transition to each bar WHEN 
-    let options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 1.0
-      }
+                }
 
-    let callback = (entries, observer) => {
-        entries.forEach(entry => {
-            if(entry.isIntersecting) {
-                animateBars(estCols, yScale, h, estSpan, estPercentInfected)
-            }
+            });
+        };
+        const observer = new IntersectionObserver( intersectionCallback, intersectionOptions);
+        observer.observe(svgEl);
+    } else {
+        // amend this for multiples 
+        console.log("intersection observer not available")
+        let delay = isMultiple ? 8000 : 2000
 
-        });
-      };
-      
-    let observer = new IntersectionObserver( callback, options);
-    observer.observe(svgEl);
+        console.log(delay)
+
+        setTimeout(animateBars(estCols, yScale, h, estSpan, estPercentInfected), delay);
+
+    }
 
 }
+
+
+
+
+
+
+
 
 export {makeColChart}

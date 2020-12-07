@@ -270,7 +270,7 @@ var run = /*#__PURE__*/function () {
               w: w,
               h: h
             };
-            Object(_shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_23__["makeColChart"])(svg, infoSpans, summedByDate, config);
+            Object(_shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_23__["makeColChart"])(svg, infoSpans, summedByDate, config, false);
 
             if (window.resize) {
               window.resize();
@@ -57707,6 +57707,17 @@ var margin = {
 var confColor = "#c70000";
 var estColor = "grey";
 var startDate = new Date(moment__WEBPACK_IMPORTED_MODULE_15___default()("16/12/2019", dateFormat));
+var isIntersectionObserverAvailable = true;
+
+if (!('IntersectionObserver' in window) || !('IntersectionObserverEntry' in window) || !('intersectionRatio' in window.IntersectionObserverEntry.prototype)) {
+  isIntersectionObserverAvailable = false;
+}
+
+var intersectionOptions = {
+  root: null,
+  rootMargin: '0px',
+  threshold: 0.9
+};
 
 var calculatePercentInfected = function calculatePercentInfected(data, casesProp) {
   var totalCases = data.reduce(function (acc, curr) {
@@ -57731,8 +57742,7 @@ var cleanUpData = function cleanUpData(data, dateProp, estCasesProp, confCasesPr
     return _objectSpread(_objectSpread({}, d), {}, (_objectSpread2 = {}, _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_13___default()(_objectSpread2, estCasesProp, estCasesNum), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_13___default()(_objectSpread2, confCasesProp, confCasesNum), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_13___default()(_objectSpread2, dateProp, dateClean), _objectSpread2));
   });
   return dataAsNum;
-}; // const animateSpan = (estSpan)
-
+};
 
 var animateBars = function animateBars(estCols, yScale, h, estSpan, estValue) {
   // add transition to each bar 
@@ -57752,10 +57762,11 @@ var animateBars = function animateBars(estCols, yScale, h, estSpan, estValue) {
   });
 };
 
-var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config) {
+var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config, isMultiple) {
   var svg = d3__WEBPACK_IMPORTED_MODULE_14__["select"](svgEl);
   var w = config.w,
-      h = config.h; //set svg width and viewbox 
+      h = config.h;
+  var hasAnimationRun = false; //set svg width and viewbox 
 
   svg.attr("width", w).attr("height", h).attr("viewBox", "0,0,".concat(w, ",").concat(h));
   var dataToUse = cleanUpData(rawData, dateProp, estCasesProp, confCasesProp);
@@ -57768,9 +57779,8 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config) {
   var minDate = startDate;
   var estPercentInfected = calculatePercentInfected(dataToUse, estCasesProp);
   var confPercentInfected = calculatePercentInfected(dataToUse, confCasesProp);
-  infoBoxes[0].textContent = "".concat(confPercentInfected, "%");
-  var estSpan = d3__WEBPACK_IMPORTED_MODULE_14__["select"](infoBoxes[1]); // estSpan.textContent = `${estPercentInfected}%`;
-  // SCALES 
+  infoBoxes[1].textContent = "".concat(confPercentInfected, "%");
+  var estSpan = d3__WEBPACK_IMPORTED_MODULE_14__["select"](infoBoxes[0]); // SCALES 
 
   var yScale = d3__WEBPACK_IMPORTED_MODULE_14__["scaleLinear"]().domain([0, maxCases]).range([h - margin.top - margin.bottom, 0]);
   var xScale = d3__WEBPACK_IMPORTED_MODULE_14__["scaleTime"]().domain([minDate, maxDate]).range([0, w - margin.left - margin.right]);
@@ -57801,24 +57811,28 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config) {
   var estCols = svg.selectAll(".col-est").data(dataToUse).join("rect").attr("class", "col-est").attr("fill", "".concat(estColor)).attr("width", xScaleCol.bandwidth()).attr("transform", function (d) {
     return "translate(".concat(xScaleCol(d[dateProp]), ",0)");
   }).attr("y", h - margin.top - margin.bottom) //?? hate this margin thing
-  .style("opacity", 0.5).attr("height", 0); // add transition to each bar WHEN 
+  .style("opacity", 0.5).attr("height", 0);
 
-  var options = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 1.0
-  };
+  if (isIntersectionObserverAvailable) {
+    // add transition to each bar WHEN fully onscreen
+    var intersectionCallback = function intersectionCallback(entries, observer) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && !hasAnimationRun) {
+          animateBars(estCols, yScale, h, estSpan, estPercentInfected);
+          hasAnimationRun = true;
+        }
+      });
+    };
 
-  var callback = function callback(entries, observer) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        animateBars(estCols, yScale, h, estSpan, estPercentInfected);
-      }
-    });
-  };
-
-  var observer = new IntersectionObserver(callback, options);
-  observer.observe(svgEl);
+    var observer = new IntersectionObserver(intersectionCallback, intersectionOptions);
+    observer.observe(svgEl);
+  } else {
+    // amend this for multiples 
+    console.log("intersection observer not available");
+    var delay = isMultiple ? 8000 : 2000;
+    console.log(delay);
+    setTimeout(animateBars(estCols, yScale, h, estSpan, estPercentInfected), delay);
+  }
 };
 
 
