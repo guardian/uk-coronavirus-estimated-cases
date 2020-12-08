@@ -164,7 +164,8 @@ const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple, isWide) => 
         .select(".domain").remove()
     
     d3.selectAll('.y .tick text')
-      .attr('transform', `translate(${-w},${isWide ? -7 : -12} )`)
+        .attr("x", 0)
+      .attr('transform', `translate(${-margin.left},${isWide ? -7 : -12} )`)
 
     d3.selectAll('.y .tick line')
         .style("stroke-dasharray", ("1, 1"))
@@ -219,9 +220,6 @@ const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple, isWide) => 
         // amend this for multiples 
         console.log("intersection observer not available")
         let delay = isMultiple ? 8000 : 2000
-
-        console.log(delay)
-
         setTimeout(animateBars(estCols, yScale, h, estSpan, estPercentInfected), delay);
 
     }

@@ -57803,7 +57803,7 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config, isMu
   svg.append("g").attr("class", "x axis").attr("transform", "translate(".concat(margin.left, ",").concat(h - margin.bottom - margin.top, ")")) //sorry shouldn't need to do this 
   .call(xAxis).select(".domain").remove();
   svg.append("g").attr("class", "y axis").attr("transform", "translate(".concat(margin.left, ",0)")).call(yAxis).select(".domain").remove();
-  d3__WEBPACK_IMPORTED_MODULE_14__["selectAll"]('.y .tick text').attr('transform', "translate(".concat(-w, ",").concat(isWide ? -7 : -12, " )"));
+  d3__WEBPACK_IMPORTED_MODULE_14__["selectAll"]('.y .tick text').attr("x", 0).attr('transform', "translate(".concat(-margin.left, ",").concat(isWide ? -7 : -12, " )"));
   d3__WEBPACK_IMPORTED_MODULE_14__["selectAll"]('.y .tick line').style("stroke-dasharray", "1, 1"); // COLUMNS CONFIRMED 
 
   svg.selectAll(".col-conf").data(dataToUse).join("rect").attr("class", "col-conf").attr("fill", "".concat(confColor)).attr("width", xScaleCol.bandwidth()).attr("height", function (d, i) {
@@ -57836,7 +57836,6 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config, isMu
     // amend this for multiples 
     console.log("intersection observer not available");
     var delay = isMultiple ? 8000 : 2000;
-    console.log(delay);
     setTimeout(animateBars(estCols, yScale, h, estSpan, estPercentInfected), delay);
   }
 };
