@@ -20,7 +20,6 @@ import moment from "moment"
     // weeklyDeaths: "0"
 // }
 
-const isWide = window.innerWidth > 450;
 const dateFormat = "D/M/YYYY"
 const estCasesProp = 'estimatedWeeklyNewCases'; 
 const confCasesProp = 'confirmedWeeklyNewCases';
@@ -92,10 +91,21 @@ const animateBars = (estCols, yScale, h, estSpan, estValue) => {
 }
 
 
-const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple) => {
+const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple, isWide) => {
     const svg = d3.select(svgEl)
-    const {w, h} = config;
+    const {width, height} = config;
     let hasAnimationRun = false;
+    const w = width;
+    const h = height;
+
+    // // amend for england chart when on mobile
+    // if(!isMultiple && !isWide) {
+    //     w = width / 2;
+    //     h = height;
+    // } else {
+    //     w = width / 2;
+    //     h = height;
+    // }
 
     //set svg width and viewbox 
     svg.attr("width", w)
@@ -158,10 +168,6 @@ const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple) => {
 
     d3.selectAll('.y .tick line')
         .style("stroke-dasharray", ("1, 1"))
-    
-    //move first x tick over on mobile
-    // d3.select('.x .tick text')
-    //   .attr("dx", isWide ? 0 : 10)
 
     // COLUMNS CONFIRMED 
     svg.selectAll(".col-conf")

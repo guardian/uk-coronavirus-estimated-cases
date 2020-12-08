@@ -33,8 +33,8 @@ const svg = document.querySelector("#gv-svg-col-chart");
 const infoSpans = document.querySelectorAll(".info-box span");
 
 const isWide = window.innerWidth > 450;
-const w = isWide ? 600 : 300;
-const h = isWide ? 400 : 200;
+const width = isWide ? 600 : 300;
+const height = isWide ? 400 : 200;
 
 const compressArray = (dateArr) => {
   return dateArr.reduce((acc, curr) => {
@@ -83,8 +83,8 @@ const run = async () => {
     const allData = data.sheets.weekly_cases_est_and_PHE_UTLA;
     //sort by date and sum all england for each date 
     const summedByDate = getSumForDate(allData);
-    const config = {w, h}
-    makeColChart(svg, infoSpans, summedByDate, config, false)
+    const config = {width, height};
+    makeColChart(svg, infoSpans, summedByDate, config, false, isWide)
   
     if (window.resize) {
       window.resize();

@@ -201,8 +201,8 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 var svg = document.querySelector("#gv-svg-col-chart");
 var infoSpans = document.querySelectorAll(".info-box span");
 var isWide = window.innerWidth > 450;
-var w = isWide ? 600 : 300;
-var h = isWide ? 400 : 200;
+var width = isWide ? 600 : 300;
+var height = isWide ? 400 : 200;
 
 var compressArray = function compressArray(dateArr) {
   return dateArr.reduce(function (acc, curr) {
@@ -267,10 +267,10 @@ var run = /*#__PURE__*/function () {
 
             summedByDate = getSumForDate(allData);
             config = {
-              w: w,
-              h: h
+              width: width,
+              height: height
             };
-            Object(_shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_23__["makeColChart"])(svg, infoSpans, summedByDate, config, false);
+            Object(_shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_23__["makeColChart"])(svg, infoSpans, summedByDate, config, false, isWide);
 
             if (window.resize) {
               window.resize();
@@ -57693,7 +57693,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 // weeklyDeaths: "0"
 // }
 
-var isWide = window.innerWidth > 450;
 var dateFormat = "D/M/YYYY";
 var estCasesProp = 'estimatedWeeklyNewCases';
 var confCasesProp = 'confirmedWeeklyNewCases';
@@ -57762,11 +57761,21 @@ var animateBars = function animateBars(estCols, yScale, h, estSpan, estValue) {
   });
 };
 
-var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config, isMultiple) {
+var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config, isMultiple, isWide) {
   var svg = d3__WEBPACK_IMPORTED_MODULE_14__["select"](svgEl);
-  var w = config.w,
-      h = config.h;
-  var hasAnimationRun = false; //set svg width and viewbox 
+  var width = config.width,
+      height = config.height;
+  var hasAnimationRun = false;
+  var w = width;
+  var h = height; // // amend for england chart when on mobile
+  // if(!isMultiple && !isWide) {
+  //     w = width / 2;
+  //     h = height;
+  // } else {
+  //     w = width / 2;
+  //     h = height;
+  // }
+  //set svg width and viewbox 
 
   svg.attr("width", w).attr("height", h).attr("viewBox", "0,0,".concat(w, ",").concat(h));
   var dataToUse = cleanUpData(rawData, dateProp, estCasesProp, confCasesProp);
@@ -57795,10 +57804,7 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config, isMu
   .call(xAxis).select(".domain").remove();
   svg.append("g").attr("class", "y axis").attr("transform", "translate(".concat(margin.left, ",0)")).call(yAxis).select(".domain").remove();
   d3__WEBPACK_IMPORTED_MODULE_14__["selectAll"]('.y .tick text').attr('transform', "translate(".concat(-w, ",").concat(isWide ? -7 : -12, " )"));
-  d3__WEBPACK_IMPORTED_MODULE_14__["selectAll"]('.y .tick line').style("stroke-dasharray", "1, 1"); //move first x tick over on mobile
-  // d3.select('.x .tick text')
-  //   .attr("dx", isWide ? 0 : 10)
-  // COLUMNS CONFIRMED 
+  d3__WEBPACK_IMPORTED_MODULE_14__["selectAll"]('.y .tick line').style("stroke-dasharray", "1, 1"); // COLUMNS CONFIRMED 
 
   svg.selectAll(".col-conf").data(dataToUse).join("rect").attr("class", "col-conf").attr("fill", "".concat(confColor)).attr("width", xScaleCol.bandwidth()).attr("height", function (d, i) {
     return h - margin.top - margin.bottom - yScale(d[confCasesProp]);

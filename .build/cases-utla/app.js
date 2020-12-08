@@ -118,8 +118,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var svgBoxes = document.querySelectorAll('.multiple');
-var w = 275;
-var h = 250; // should we pick the ones with the biggest gap? or the highest estimated rate? 
+var isWide = window.innerWidth > 450;
+var width = 275;
+var height = 250; // should we pick the ones with the biggest gap? or the highest estimated rate? 
 // places 
 
 var brent = {
@@ -153,10 +154,10 @@ var makeUtlaChart = function makeUtlaChart(svgBox, utlaData, utlaName) {
   var svg = svgBox.querySelector("#gv-svg-col-chart");
   var infoSpans = svgBox.querySelectorAll(".info-box span");
   var config = {
-    w: w,
-    h: h
+    width: width,
+    height: height
   };
-  Object(_shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_6__["makeColChart"])(svg, infoSpans, utlaData, config, true);
+  Object(_shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_6__["makeColChart"])(svg, infoSpans, utlaData, config, true, isWide);
 };
 
 var run = /*#__PURE__*/function () {
@@ -55932,7 +55933,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 // weeklyDeaths: "0"
 // }
 
-var isWide = window.innerWidth > 450;
 var dateFormat = "D/M/YYYY";
 var estCasesProp = 'estimatedWeeklyNewCases';
 var confCasesProp = 'confirmedWeeklyNewCases';
@@ -56001,11 +56001,21 @@ var animateBars = function animateBars(estCols, yScale, h, estSpan, estValue) {
   });
 };
 
-var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config, isMultiple) {
+var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config, isMultiple, isWide) {
   var svg = d3__WEBPACK_IMPORTED_MODULE_14__["select"](svgEl);
-  var w = config.w,
-      h = config.h;
-  var hasAnimationRun = false; //set svg width and viewbox 
+  var width = config.width,
+      height = config.height;
+  var hasAnimationRun = false;
+  var w = width;
+  var h = height; // // amend for england chart when on mobile
+  // if(!isMultiple && !isWide) {
+  //     w = width / 2;
+  //     h = height;
+  // } else {
+  //     w = width / 2;
+  //     h = height;
+  // }
+  //set svg width and viewbox 
 
   svg.attr("width", w).attr("height", h).attr("viewBox", "0,0,".concat(w, ",").concat(h));
   var dataToUse = cleanUpData(rawData, dateProp, estCasesProp, confCasesProp);
@@ -56034,10 +56044,7 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config, isMu
   .call(xAxis).select(".domain").remove();
   svg.append("g").attr("class", "y axis").attr("transform", "translate(".concat(margin.left, ",0)")).call(yAxis).select(".domain").remove();
   d3__WEBPACK_IMPORTED_MODULE_14__["selectAll"]('.y .tick text').attr('transform', "translate(".concat(-w, ",").concat(isWide ? -7 : -12, " )"));
-  d3__WEBPACK_IMPORTED_MODULE_14__["selectAll"]('.y .tick line').style("stroke-dasharray", "1, 1"); //move first x tick over on mobile
-  // d3.select('.x .tick text')
-  //   .attr("dx", isWide ? 0 : 10)
-  // COLUMNS CONFIRMED 
+  d3__WEBPACK_IMPORTED_MODULE_14__["selectAll"]('.y .tick line').style("stroke-dasharray", "1, 1"); // COLUMNS CONFIRMED 
 
   svg.selectAll(".col-conf").data(dataToUse).join("rect").attr("class", "col-conf").attr("fill", "".concat(confColor)).attr("width", xScaleCol.bandwidth()).attr("height", function (d, i) {
     return h - margin.top - margin.bottom - yScale(d[confCasesProp]);
