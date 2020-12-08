@@ -134,6 +134,7 @@ const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple) => {
         .scale(xScale)
         .tickSize(isWide ? 5 : 10 )
         .tickFormat(d3.timeFormat("%b"))
+        .ticks(4)
 
     const yAxis = d3.axisRight(yScale)
         .scale(yScale)

@@ -2,7 +2,7 @@ import {makeColChart} from "shared/js/column-chart.js"
 import {getUtlas} from "shared/js/get-data.js";
 
 const svgBoxes = document.querySelectorAll('.multiple');
-const w = 300
+const w = 275 
 const h = 250
 
 // should we pick the ones with the biggest gap? or the highest estimated rate? 

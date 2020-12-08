@@ -57789,7 +57789,7 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config, isMu
   })) // min to max 
   .range([0, w - margin.left - margin.right]).padding(0.05); // AXES 
 
-  var xAxis = d3__WEBPACK_IMPORTED_MODULE_14__["axisBottom"](xScale).scale(xScale).tickSize(isWide ? 5 : 10).tickFormat(d3__WEBPACK_IMPORTED_MODULE_14__["timeFormat"]("%b"));
+  var xAxis = d3__WEBPACK_IMPORTED_MODULE_14__["axisBottom"](xScale).scale(xScale).tickSize(isWide ? 5 : 10).tickFormat(d3__WEBPACK_IMPORTED_MODULE_14__["timeFormat"]("%b")).ticks(4);
   var yAxis = d3__WEBPACK_IMPORTED_MODULE_14__["axisRight"](yScale).scale(yScale).tickSize(w - margin.left).ticks(4);
   svg.append("g").attr("class", "x axis").attr("transform", "translate(".concat(margin.left, ",").concat(h - margin.bottom - margin.top, ")")) //sorry shouldn't need to do this 
   .call(xAxis).select(".domain").remove();
