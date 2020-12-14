@@ -1,5 +1,6 @@
 import {makeColChart} from "shared/js/column-chart.js"
 import {getUtlas} from "shared/js/get-data.js";
+import moment from "moment";
 
 // DATA IN
 // {
@@ -58,7 +59,7 @@ const compressArray = (dateArr) => {
       ...acc, 
       confirmedWeeklyNewCases, 
       estimatedWeeklyNewCases, 
-      population, 
+      population,
       weeklyDeaths, 
       dateOfNewCaseLagged: curr['dateOfNewCaseLagged'],
       utlaCode:"E92000001",
@@ -69,9 +70,17 @@ const compressArray = (dateArr) => {
 
 // convert data for all areas into england level data 
 const getSumForDate = (allData) => {
+
+  //all data should use dates in a consistent format eg: not 06/01/2020 AND 6/1/2020
+  const cleanDates = allData.map(d => {
+    const dc = moment(d['dateOfNewCaseLagged'], "DD/MM/YYYY");
+    const clean = dc.format('DD/MM/YYYY')
+    return {...d, 'dateOfNewCaseLagged': clean};
+  })
+
   //split into 2d arrays by date 
-  const uniqDates = Array.from(new Set(allData.map(d => d['dateOfNewCaseLagged'])))
-  const splitByDate = uniqDates.map(date => allData.filter(d => d['dateOfNewCaseLagged'] === date))
+  const uniqDates = Array.from(new Set(cleanDates.map(d => d['dateOfNewCaseLagged']))) // check in spreadsheet that dates are formatted in one way only
+  const splitByDate = uniqDates.map(date => cleanDates.filter(d => d['dateOfNewCaseLagged'] === date))
   const compressToEngland = splitByDate.map(d => compressArray(d));
 
   return compressToEngland;

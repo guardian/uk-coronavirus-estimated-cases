@@ -98,15 +98,6 @@ const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple, isWide) => 
     const w = width;
     const h = height;
 
-    // // amend for england chart when on mobile
-    // if(!isMultiple && !isWide) {
-    //     w = width / 2;
-    //     h = height;
-    // } else {
-    //     w = width / 2;
-    //     h = height;
-    // }
-
     //set svg width and viewbox 
     svg.attr("width", w)
     .attr("height", h)

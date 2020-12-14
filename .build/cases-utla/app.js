@@ -56007,15 +56007,7 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config, isMu
       height = config.height;
   var hasAnimationRun = false;
   var w = width;
-  var h = height; // // amend for england chart when on mobile
-  // if(!isMultiple && !isWide) {
-  //     w = width / 2;
-  //     h = height;
-  // } else {
-  //     w = width / 2;
-  //     h = height;
-  // }
-  //set svg width and viewbox 
+  var h = height; //set svg width and viewbox 
 
   svg.attr("width", w).attr("height", h).attr("viewBox", "0,0,".concat(w, ",").concat(h));
   var dataToUse = cleanUpData(rawData, dateProp, estCasesProp, confCasesProp);

@@ -143,6 +143,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22__);
 /* harmony import */ var _shared_js_column_chart_js__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ../../../../shared/js/column-chart.js */ "./shared/js/column-chart.js");
 /* harmony import */ var _shared_js_get_data_js__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ../../../../shared/js/get-data.js */ "./shared/js/get-data.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_25___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_25__);
 
 
 
@@ -170,6 +172,7 @@ __webpack_require__.r(__webpack_exports__);
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_22___default()(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 
 
  // DATA IN
@@ -236,12 +239,21 @@ var compressArray = function compressArray(dateArr) {
 
 
 var getSumForDate = function getSumForDate(allData) {
-  //split into 2d arrays by date 
-  var uniqDates = Array.from(new Set(allData.map(function (d) {
+  //all data should use dates in a consistent format eg: not 06/01/2020 AND 6/1/2020
+  var cleanDates = allData.map(function (d) {
+    var dc = moment__WEBPACK_IMPORTED_MODULE_25___default()(d['dateOfNewCaseLagged'], "DD/MM/YYYY");
+    var clean = dc.format('DD/MM/YYYY');
+    return _objectSpread(_objectSpread({}, d), {}, {
+      'dateOfNewCaseLagged': clean
+    });
+  }); //split into 2d arrays by date 
+
+  var uniqDates = Array.from(new Set(cleanDates.map(function (d) {
     return d['dateOfNewCaseLagged'];
-  })));
+  }))); // check in spreadsheet that dates are formatted in one way only
+
   var splitByDate = uniqDates.map(function (date) {
-    return allData.filter(function (d) {
+    return cleanDates.filter(function (d) {
       return d['dateOfNewCaseLagged'] === date;
     });
   });
@@ -57767,15 +57779,7 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config, isMu
       height = config.height;
   var hasAnimationRun = false;
   var w = width;
-  var h = height; // // amend for england chart when on mobile
-  // if(!isMultiple && !isWide) {
-  //     w = width / 2;
-  //     h = height;
-  // } else {
-  //     w = width / 2;
-  //     h = height;
-  // }
-  //set svg width and viewbox 
+  var h = height; //set svg width and viewbox 
 
   svg.attr("width", w).attr("height", h).attr("viewBox", "0,0,".concat(w, ",").concat(h));
   var dataToUse = cleanUpData(rawData, dateProp, estCasesProp, confCasesProp);
