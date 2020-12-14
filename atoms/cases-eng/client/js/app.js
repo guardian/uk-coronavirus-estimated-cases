@@ -30,7 +30,7 @@ import moment from "moment";
     // utlaName: "England"
 // }
 
-const svg = document.querySelector("#gv-svg-col-chart");
+const svg = document.querySelector(".gv-svg-col-chart-est");
 const infoSpans = document.querySelectorAll(".info-box span");
 
 const isWide = window.innerWidth > 450;
