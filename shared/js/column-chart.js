@@ -156,7 +156,7 @@ const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple, isWide) => 
     
     d3.selectAll('.y .tick text')
         .attr("x", 0)
-      .attr('transform', `translate(${-margin.left},${isWide ? -7 : -12} )`)
+        .attr('transform', `translate(${-15},${isWide ? -7 : -12} )`)
 
     d3.selectAll('.y .tick line')
         .style("stroke-dasharray", ("1, 1"))
