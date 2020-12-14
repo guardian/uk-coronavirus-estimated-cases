@@ -413,7 +413,10 @@
   padding: 3px 0; }
 
 .eng-graph {
-  max-width: 600px; }
+  max-width: 300px; }
+  @media (min-width: 30em) {
+    .eng-graph {
+      max-width: 600px; } }
 
 .multiple-container {
   display: -webkit-flex;

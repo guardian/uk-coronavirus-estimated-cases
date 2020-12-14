@@ -15,7 +15,10 @@
 }
 
 .eng-graph {
-	max-width: 600px;
+	max-width: 300px;
+	@include mq(mobileLandscape){
+		max-width: 600px;
+	}
 }
 
 // multiples grid 
