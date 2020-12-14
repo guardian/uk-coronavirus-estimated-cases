@@ -153,7 +153,7 @@ const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple, isWide) => 
 
     svg.append("g")
         .attr("class", "x axis")
-        .attr("transform", `translate(${margin.left},${ h - margin.bottom - margin.top})`) //sorry shouldn't need to do this 
+        .attr("transform", `translate(0,${ h - margin.bottom - margin.top})`) //sorry shouldn't need to do this 
         .call(xAxis)
         .select(".domain").remove()
 

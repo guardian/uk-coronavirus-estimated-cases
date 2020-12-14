@@ -1,5 +1,3 @@
-
-
 // const gbUrl = "https://gdn-cdn.s3.amazonaws.com/2020/coronavirus-uk-local-data/v5/gb-utlas.json";
 
 // estimated and actual data at a national level

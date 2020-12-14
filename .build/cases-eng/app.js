@@ -57800,7 +57800,7 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config, isMu
 
   var xAxis = d3__WEBPACK_IMPORTED_MODULE_14__["axisBottom"](xScale).scale(xScale).tickSize(isWide ? 5 : 10).tickFormat(d3__WEBPACK_IMPORTED_MODULE_14__["timeFormat"]("%b")).ticks(4);
   var yAxis = d3__WEBPACK_IMPORTED_MODULE_14__["axisRight"](yScale).scale(yScale).tickSize(w - margin.left).ticks(4);
-  svg.append("g").attr("class", "x axis").attr("transform", "translate(".concat(margin.left, ",").concat(h - margin.bottom - margin.top, ")")) //sorry shouldn't need to do this 
+  svg.append("g").attr("class", "x axis").attr("transform", "translate(".concat(0, ",", h - margin.bottom - margin.top, ")")) //sorry shouldn't need to do this 
   .call(xAxis).select(".domain").remove();
   svg.append("g").attr("class", "y axis").attr("transform", "translate(".concat(margin.left, ",0)")).call(yAxis).select(".domain").remove();
   d3__WEBPACK_IMPORTED_MODULE_14__["selectAll"]('.y .tick text').attr("x", 0).attr('transform', "translate(".concat(-margin.left, ",").concat(isWide ? -7 : -12, " )"));
