@@ -151,7 +151,7 @@ var areas = [liverpool, tameside, manchester, salford, rochdale, oldham];
 
 var makeUtlaChart = function makeUtlaChart(svgBox, utlaData, utlaName) {
   svgBox.querySelector('#utla-name').textContent = utlaName;
-  var svg = svgBox.querySelector(".gv-svg-col-chart-est");
+  var svg = svgBox.querySelector(".gv-svg-col-chart-est-utla");
   var infoSpans = svgBox.querySelectorAll(".info-box span");
   var config = {
     width: width,

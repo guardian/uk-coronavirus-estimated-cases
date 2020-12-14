@@ -20,7 +20,7 @@ const areas = [liverpool, tameside, manchester, salford, rochdale, oldham];
 
 const makeUtlaChart = (svgBox, utlaData, utlaName) => {
   svgBox.querySelector('#utla-name').textContent = utlaName;
-  const svg = svgBox.querySelector(".gv-svg-col-chart-est");
+  const svg = svgBox.querySelector(".gv-svg-col-chart-est-utla");
   const infoSpans = svgBox.querySelectorAll(".info-box span");
   const config = {width, height}
   makeColChart(svg, infoSpans, utlaData, config, true, isWide)
