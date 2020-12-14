@@ -143,22 +143,22 @@ const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple, isWide) => 
         .ticks(4)
 
     svg.append("g")
-        .attr("class", "x axis")
+        .attr("class", "x axis est")
         .attr("transform", `translate(0,${ h - margin.bottom - margin.top})`) //sorry shouldn't need to do this 
         .call(xAxis)
         .select(".domain").remove()
 
     svg.append("g")
-        .attr("class", "y axis")
+        .attr("class", "y axis est")
         .attr("transform", `translate(${margin.left},0)`)
         .call(yAxis)
         .select(".domain").remove()
     
-    d3.selectAll('.y .tick text')
+    d3.selectAll('.y.est .tick text')
         .attr("x", 0)
         .attr('transform', `translate(${-15},${isWide ? -7 : -12} )`)
 
-    d3.selectAll('.y .tick line')
+    d3.selectAll('.y.est .tick line')
         .style("stroke-dasharray", ("1, 1"))
 
     // COLUMNS CONFIRMED 
