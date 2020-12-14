@@ -9,15 +9,14 @@ const height = 250
 
 // should we pick the ones with the biggest gap? or the highest estimated rate? 
 // places 
-const brent = {code: "E09000005", name: "Brent"}
-const newham = {code: "E09000025", name: "Newham"}
-const tameside = {code: "E08000008", name: "Tameside"}
 const liverpool = {code: "E08000012", name: "Liverpool"}
+const tameside = {code: "E08000008", name: "Tameside"}
+const manchester = {code: "E08000003", name: "Manchester"}
 const salford = {code: "E08000006", name: "Salford"}
-const harrow = {code: "E09000015", name: "Harrow"}
+const rochdale = {code: "E08000005", name: "Rochdale"}
+const oldham = {code: "E08000004", name: "Oldham"}
 
-const areas = [brent, newham, tameside, liverpool, salford, harrow];
-
+const areas = [liverpool, tameside, manchester, salford, rochdale, oldham];
 
 const makeUtlaChart = (svgBox, utlaData, utlaName) => {
   svgBox.querySelector('#utla-name').textContent = utlaName;

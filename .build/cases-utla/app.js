@@ -123,31 +123,31 @@ var width = 275;
 var height = 250; // should we pick the ones with the biggest gap? or the highest estimated rate? 
 // places 
 
-var brent = {
-  code: "E09000005",
-  name: "Brent"
-};
-var newham = {
-  code: "E09000025",
-  name: "Newham"
+var liverpool = {
+  code: "E08000012",
+  name: "Liverpool"
 };
 var tameside = {
   code: "E08000008",
   name: "Tameside"
 };
-var liverpool = {
-  code: "E08000012",
-  name: "Liverpool"
+var manchester = {
+  code: "E08000003",
+  name: "Manchester"
 };
 var salford = {
   code: "E08000006",
   name: "Salford"
 };
-var harrow = {
-  code: "E09000015",
-  name: "Harrow"
+var rochdale = {
+  code: "E08000005",
+  name: "Rochdale"
 };
-var areas = [brent, newham, tameside, liverpool, salford, harrow];
+var oldham = {
+  code: "E08000004",
+  name: "Oldham"
+};
+var areas = [liverpool, tameside, manchester, salford, rochdale, oldham];
 
 var makeUtlaChart = function makeUtlaChart(svgBox, utlaData, utlaName) {
   svgBox.querySelector('#utla-name').textContent = utlaName;
