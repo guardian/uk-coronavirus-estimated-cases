@@ -57783,6 +57783,7 @@ var makeColChart = function makeColChart(svgEl, infoBoxes, rawData, config, isMu
 
   svg.attr("width", w).attr("height", h).attr("viewBox", "0,0,".concat(w, ",").concat(h));
   var dataToUse = cleanUpData(rawData, dateProp, estCasesProp, confCasesProp);
+  console.log('data to use -->', dataToUse);
   var maxCases = d3__WEBPACK_IMPORTED_MODULE_14__["max"](dataToUse.map(function (d) {
     return d[estCasesProp];
   }));
