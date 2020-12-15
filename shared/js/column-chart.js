@@ -150,13 +150,13 @@ const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple, isWide) => 
 
     svg.append("g")
         .attr("class", "y axis est")
-        .attr("transform", `translate(${margin.left},0)`)
+        .attr("transform", `translate(0,0)`)
         .call(yAxis)
         .select(".domain").remove()
     
     d3.selectAll('.y.est .tick text')
         .attr("x", 0)
-        .attr('transform', `translate(${-15},${isWide ? -7 : -12} )`)
+        .attr('transform', `translate(0,${isWide ? -7 : -12} )`)
 
     d3.selectAll('.y.est .tick line')
         .style("stroke-dasharray", ("1, 1"))
