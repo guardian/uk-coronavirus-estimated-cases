@@ -98,6 +98,8 @@ const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple, isWide) => 
     const w = width;
     const h = height;
 
+    console.log("is multiple", isMultiple, "width", width, "isWide screen", isWide);
+
     //set svg width and viewbox 
     svg.attr("width", w)
     .attr("height", h)
