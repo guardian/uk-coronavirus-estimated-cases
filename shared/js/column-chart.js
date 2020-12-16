@@ -145,22 +145,22 @@ const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple, isWide) => 
         .ticks(4)
 
     svg.append("g")
-        .attr("class", "x axis est")
+        .attr("class", "x-est axis")
         .attr("transform", `translate(0,${ h - margin.bottom - margin.top})`) //sorry shouldn't need to do this 
         .call(xAxis)
         .select(".domain").remove()
 
     svg.append("g")
-        .attr("class", "y axis est")
+        .attr("class", "y-est axis")
         .attr("transform", `translate(0,0)`)
         .call(yAxis)
         .select(".domain").remove()
     
-    d3.selectAll('.y.est .tick text')
+    svg.selectAll('.y-est .tick text')
         .attr("x", 0)
         .attr('transform', `translate(0,${isWide ? -7 : -12} )`)
 
-    d3.selectAll('.y.est .tick line')
+    svg.selectAll('.y-est .tick line')
         .style("stroke-dasharray", ("1, 1"))
 
     // COLUMNS CONFIRMED 
@@ -218,12 +218,6 @@ const makeColChart = (svgEl, infoBoxes, rawData, config, isMultiple, isWide) => 
     }
 
 }
-
-
-
-
-
-
 
 
 export {makeColChart}
