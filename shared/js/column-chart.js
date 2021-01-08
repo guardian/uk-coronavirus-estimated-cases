@@ -48,7 +48,7 @@ const intersectionOptions = {
 
 const calculatePercentInfected = (data, casesProp) => {
     const totalCases = data.reduce((acc, curr) => acc += curr[casesProp], 0)
-    const population = parseInt(data[0].population);
+    const population = parseInt(data[data.length - 1].population);
     return ((totalCases / population) * 100).toFixed(1);
 }
 
